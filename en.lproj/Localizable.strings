@@ -1,0 +1,57 @@
+/* 
+  Localizable.strings
+  PassCreate
+
+  Created by 丹羽雄一朗
+  Copyright © 2020 Niwa Yuichirou. All rights reserved.
+*/
+
+//---
+
+"完了" = "Done";
+
+//---
+
+"履歴" = "HISTORY";
+
+"生成ボタンを押してください" = "Press the Create Button";
+
+"パスワードを生成" = "Generate";
+
+"↑タップでコピーされます↑" = "↑ Tap to Copy ↑";
+
+"コピーしました" = "Copied to Clipboard";
+
+"パスワードを生成できません" = "Error";
+
+"パスワードに使用する文字を最低ひとつ\n選んでください。" = "Please select at least one character \n to use for the password";
+
+//---
+
+"設定" = "Setting";
+
+"一般" = "GENERAL";
+
+"パスワードの文字数" = "Password Length";
+
+"使用する文字の設定" = "Character Type";
+
+"このアプリについて" = "ABOUT Dobermann";
+
+"バージョン" = "Version";
+
+//---
+
+"簡易設定" = "Simple Setting";
+
+"詳細設定" = "Advanced Setting";
+
+//---
+
+"A-Z 英字(大文字)" = "A-Z Alphabet(Uppercase)";
+
+"a-z 英字(小文字)" = "a-z Alphabet(Lowercase)";
+
+"1-9 数字" = "1-9 Numbers";
+
+"@ 記号" = "@ signs";

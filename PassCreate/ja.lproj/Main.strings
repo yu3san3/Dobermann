@@ -1,0 +1,42 @@
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "07N-zO-JEe"; */
+"07N-zO-JEe.text" = "Detail";
+
+/* Class = "UINavigationItem"; title = "使用する文字の設定"; ObjectID = "4Gs-ro-eVG"; */
+"4Gs-ro-eVG.title" = "使用する文字の設定";
+
+/* Class = "UIButton"; normalTitle = "ラベルタップ検知"; ObjectID = "DeG-0y-MeL"; */
+"DeG-0y-MeL.normalTitle" = "ラベルタップ検知";
+
+/* Class = "UILabel"; text = "パスワード表示"; ObjectID = "Ff4-ya-4DR"; */
+"Ff4-ya-4DR.text" = "パスワード表示";
+
+/* Class = "UIBarButtonItem"; title = "完了"; ObjectID = "GGu-2s-qMR"; */
+"GGu-2s-qMR.title" = "完了";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "KDx-C4-CEO"; */
+"KDx-C4-CEO.text" = "Title";
+
+/* Class = "UIBarButtonItem"; title = "完了"; ObjectID = "QXZ-qD-2WR"; */
+"QXZ-qD-2WR.title" = "完了";
+
+/* Class = "UILabel"; text = "クリップボードにコピー通知"; ObjectID = "TnA-Ew-Fnn"; */
+"TnA-Ew-Fnn.text" = "クリップボードにコピー通知";
+
+/* Class = "UIBarButtonItem"; title = "完了"; ObjectID = "WWP-fb-bwh"; */
+"WWP-fb-bwh.title" = "完了";
+
+/* Class = "UIBarButtonItem"; title = "createToolBarButton"; ObjectID = "Wm3-lg-Srg"; */
+"Wm3-lg-Srg.title" = "createToolBarButton";
+
+/* Class = "UINavigationItem"; title = "パスワードの文字数"; ObjectID = "dS1-hc-Pld"; */
+"dS1-hc-Pld.title" = "パスワードの文字数";
+
+/* Class = "UIButton"; normalTitle = "パスワードを生成"; ObjectID = "feJ-F3-BnF"; */
+"feJ-F3-BnF.normalTitle" = "パスワードを生成";
+
+/* Class = "UINavigationItem"; title = "設定"; ObjectID = "r5z-Ot-Xf3"; */
+"r5z-Ot-Xf3.title" = "設定";
+
+/* Class = "UILabel"; text = "操作方法表示"; ObjectID = "s6X-lw-VE7"; */
+"s6X-lw-VE7.text" = "操作方法表示";
