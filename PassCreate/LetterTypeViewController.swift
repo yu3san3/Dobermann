@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LetterTypeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class LetterTypeViewController: UIViewController {
     
     let userDefaults = UserDefaults.standard
     
@@ -21,43 +21,43 @@ class LetterTypeViewController: UIViewController, UITableViewDelegate, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationBar.title = NSLocalizedString("使用する文字の設定", comment: "")
-        navigationBarButton.title = NSLocalizedString("完了", comment: "")
-        
+
         letterTypeTableView.delegate = self
         letterTypeTableView.dataSource = self
-        
+
+        navigationBar.title = NSLocalizedString("使用する文字の設定", comment: "")
+        navigationBarButton.title = NSLocalizedString("完了", comment: "")
     }
+
+    // 設定画面に戻る
+    @IBAction func gotoConfigPage(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension LetterTypeViewController: UITableViewDelegate, UITableViewDataSource {
     
     // セクション数を指定
     func numberOfSections(in tableView: UITableView) -> Int {
-
         return 1
-
     }
     
     // セクションタイトルを指定
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
         return configTitle[section] as String
-
     }
     
     // セル数を指定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         if section == 0 {
             return configContent0.count
         } else {
             return 0
         }
-        
     }
     
     // セルを生成
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         // セルを指定する
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "letterType", for: indexPath)
         // データのないセルを非表示
@@ -85,12 +85,10 @@ class LetterTypeViewController: UIViewController, UITableViewDelegate, UITableVi
         } else {
             return cell
         }
-        
     }
     
     // 選択したセルの情報を取得
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         // セルを取得する
         let cell = tableView.cellForRow(at:indexPath)
         // タップ後に灰色を消す
@@ -131,14 +129,5 @@ class LetterTypeViewController: UIViewController, UITableViewDelegate, UITableVi
                 }
             }
         }
-        
     }
-    
-    // 設定画面に戻る
-    @IBAction func gotoConfigPage(_ sender: Any) {
-        
-        self.dismiss(animated: true, completion: nil)
-
-    }
-    
 }
