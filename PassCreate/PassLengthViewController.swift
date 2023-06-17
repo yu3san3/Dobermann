@@ -8,7 +8,8 @@
 
 import UIKit
 
-class PassLengthViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate {
+//*1: これが原因でフリーズ(R3/12/8)
+class PassLengthViewController: UIViewController {
     
     let userDefaults = UserDefaults.standard
     let lengthStepper: UIStepper = UIStepper()
@@ -23,32 +24,33 @@ class PassLengthViewController: UIViewController, UITableViewDelegate, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationBar.title = NSLocalizedString("パスワードの文字数", comment: "")
-        navigationBarButton.title = NSLocalizedString("完了", comment: "")
-        
+
         passLengthTableView.delegate = self
         passLengthTableView.dataSource = self
 
+        navigationBar.title = NSLocalizedString("パスワードの文字数", comment: "")
+        navigationBarButton.title = NSLocalizedString("完了", comment: "")
     }
 
+    // 設定画面に戻る
+    @IBAction func gotoConfigPage(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
     // セクション数を指定
     func numberOfSections(in tableView: UITableView) -> Int {
-
         return 2
-
     }
 
     // セクションタイトルを指定
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
         return configTitle[section] as String
-
     }
 
     // セル数を指定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         if section == 0 {
             return configContent0.count
         } else if section == 1 {
@@ -56,12 +58,10 @@ class PassLengthViewController: UIViewController, UITableViewDelegate, UITableVi
         } else {
             return 0
         }
-
     }
 
     // セルを生成
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
         // セルを指定する
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "passLength", for: indexPath)
         // データのないセルを非表示
@@ -102,12 +102,10 @@ class PassLengthViewController: UIViewController, UITableViewDelegate, UITableVi
         } else {
             return cell
         }
-
     }
 
     // 選択したセルの情報を取得
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         // セルを取得する
         let cell = tableView.cellForRow(at:indexPath)
         // タップ後に灰色を消す
@@ -134,26 +132,12 @@ class PassLengthViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         //passLengthTableView.reloadData()
         //*1
-        
     }
     
     // stepperの操作で実行
     @objc func stepperDetector(_ sender: UIStepper) {
-
         userDefaults.set(String(Int(lengthStepper.value)), forKey: "passLengthDataStore")
         //passLengthTableView.reloadData()
         //*1
-        
     }
-    
-    // 設定画面に戻る
-    @IBAction func gotoConfigPage(_ sender: Any) {
-        
-        let parentVC = presentingViewController as! ConfigPageViewController
-        self.dismiss(animated: true, completion: nil)
-        
-    }
-
 }
-
-//*1: これが原因でフリーズ(R3/12/8)
