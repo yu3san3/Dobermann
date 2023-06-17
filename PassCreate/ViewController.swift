@@ -3,7 +3,7 @@
 //  Dobermann -強固なパスワードをワンタップで-
 //
 //  Created by 丹羽雄一朗
-//  Copyright © 2020-2021 Niwa Yuichirou. All rights reserved.
+//  Copyright © 2020-2021 Niwa Yuichiro. All rights reserved.
 //
 //  2020/03/30 Alpha 1.0.0(1)
 //       04/05 Alpha 2.0.0(2)
@@ -22,7 +22,7 @@ import UIKit
 
 let globalVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController {
     
     let feedBack = UINotificationFeedbackGenerator()
     var fadeOutTimer = Timer()
@@ -42,10 +42,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let screenWidth:CGFloat = self.view.frame.width
-        let screenHeight:CGFloat = self.view.frame.height
-        
+
         createTableView.delegate = self
         createTableView.dataSource = self
         
@@ -54,10 +51,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         //macOSで動作時のウィンドウサイズ指定
         UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.forEach { windowScene in
-            
             windowScene.sizeRestrictions?.minimumSize = CGSize(width: 550, height: 800)
             windowScene.sizeRestrictions?.maximumSize = CGSize(width: 550, height: 800)
-            
         }
         
         // passLengthデフォルト値
@@ -67,7 +62,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         userDefaults.register(defaults: ["letterType1DataStore": true])
         userDefaults.register(defaults: ["letterType2DataStore": true])
         userDefaults.register(defaults: ["letterType3DataStore": false])
-        
+
+        setupView()
+    }
+
+    func setupView() {
+
+        let screenWidth: CGFloat = self.view.frame.width
+        let screenHeight: CGFloat = self.view.frame.height
+
         // パスワード表示ラベル
         passLabel.text = NSLocalizedString("生成ボタンを押してください", comment: "")
         passLabel.frame = CGRect(x: screenWidth/8, y: screenHeight-215, width: screenWidth*0.75, height: 60)
@@ -95,12 +98,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tapRecognizer.frame = CGRect(x: screenWidth/8, y: screenHeight-205, width: screenWidth*0.75, height: 60)
         // ツールバー設定(ボタンではない)
         createToolBar.frame = CGRect(x: 0, y: screenHeight-65, width: screenWidth, height: 45)
-        
     }
     
     // 生成ボタン処理
     @IBAction func createButton(_ sender: Any) {
-        
         // 文字数ロード
         let length = userDefaults.object(forKey: "passLengthDataStore") as? String
         howToUse.alpha = 1.0
@@ -128,12 +129,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             // パスワード生成
             passLabel.text = passGenerate(length: Int(length!)!)
         }
-        
     }
-        
+
     // passLabel(button)タップ時処理
     @IBAction func passLabelTap(_ sender: Any) {
-        
         if passLabel.text != NSLocalizedString("生成ボタンを押してください", comment: "") {
             // 改行を消去
             let befDelete = passLabel.text
@@ -155,37 +154,40 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 self.fadeOutTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.fade_in), userInfo: nil, repeats: true)
             }
         }
-        
     }
+
+    // 設定画面へ移動
+    @IBAction func gotoConfigPage(_ sender: Any) {
+        let configVC = self.storyboard?.instantiateViewController(identifier: "configPage")
+        configVC?.modalTransitionStyle = .coverVertical
+        present(configVC!, animated: true, completion: nil)
+    }
+}
+
+//MARK: - UITableViewDelegate, UITableViewDataSource
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     // セクション数を指定
     func numberOfSections(in tableView: UITableView) -> Int {
-        
         return 1
-        
     }
     
     // セクションタイトルを指定
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
         return createTitle[section] as String
-        
     }
     
     // セル数を指定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         if section == 0 {
             return createContent0.count
         } else {
             return 0
         }
-        
     }
     
     // セルを生成
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         // セルを指定する
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "create", for: indexPath)
         // データのないセルを非表示
@@ -201,12 +203,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         } else {
             return cell
         }
-        
     }
     
     // 選択したセルの情報を取得
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         // セルを取得する
         let cell = tableView.cellForRow(at:indexPath)
         // タップ後に灰色を消す
@@ -224,23 +224,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 self.fadeOutTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.fade_in), userInfo: nil, repeats: true)
             }
         }
-        
     }
     
     // 0.05秒ごとに実行される関数
     @objc func fade_in() {
-        
         copyAlertLabel.alpha -= 0.1
         // 透明度がなくなったらタイマーを止める
         if (copyAlertLabel.alpha <= 0.0) {
             fadeOutTimer.invalidate()
         }
-        
     }
     
     // パスワード生成関数
     func passGenerate(length: Int) -> String {
-        
         //0oO 1lI| gq9
         let data0 = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
         let data1 = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
@@ -261,6 +257,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if userDefaults.object(forKey: "letterType3DataStore") as! Bool == true {
             usedData += data3
         }
+
         for _ in 0..<length {
             let randomValue = arc4random_uniform(UInt32(usedData.count))
             if randomString.count == 20 {
@@ -268,18 +265,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
             randomString += usedData[Int(randomValue)]
         }
+
         return randomString
-        
     }
-    
-    // 設定画面へ移動
-    @IBAction func gotoConfigPage(_ sender: Any) {
-        
-        let configVC = self.storyboard?.instantiateViewController(identifier: "configPage")
-        configVC?.modalTransitionStyle = .coverVertical
-        present(configVC!, animated: true, completion: nil)
-        
-    }
-    
 }
 
