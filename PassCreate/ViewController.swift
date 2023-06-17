@@ -101,26 +101,10 @@ class ViewController: UIViewController {
     
     // 生成ボタン処理
     @IBAction func createButton(_ sender: Any) {
-        howToUseLabel.alpha = 1.0
-        if passLabel.text != NSLocalizedString("生成ボタンを押してください", comment: "") {
-            // セルの内容をひとつずつ移動
-            for i in stride(from: 19, to: 0, by: -1) {
-                passHistory[i] = passHistory[i-1]
-            }
-            // 改行を消去
-            let result = passLabel.text?.range(of: "\n")
-            if let theRange = result {
-                passLabel.text?.removeSubrange(theRange)
-            }
-            passHistory[0] = passLabel.text!
-            // 再ロード
-            passHistoryTableView.reloadData()
-        }
-        // 無効な文字の種類を判定
         if userDefaults.object(forKey: "letterType0DataStore") as! Bool == false &&
-            userDefaults.object(forKey: "letterType1DataStore") as! Bool == false &&
-            userDefaults.object(forKey: "letterType2DataStore") as! Bool == false &&
-            userDefaults.object(forKey: "letterType3DataStore") as! Bool == false {
+                userDefaults.object(forKey: "letterType1DataStore") as! Bool == false &&
+                userDefaults.object(forKey: "letterType2DataStore") as! Bool == false &&
+                userDefaults.object(forKey: "letterType3DataStore") as! Bool == false {
             // ダイアログ
             let dialog = UIAlertController(
                 title: NSLocalizedString("パスワードを生成できません", comment: ""),
@@ -129,70 +113,84 @@ class ViewController: UIViewController {
             )
             dialog.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(dialog, animated: true, completion: nil)
-        } else {
-            let passLength = userDefaults.object(forKey: "passLengthDataStore") as? String
-            // パスワード生成
-            passLabel.text = passGenerate(length: Int(passLength!)!)
+            print(userDefaults.object(forKey: "letterType0DataStore") as! Bool)
+            return
         }
+        howToUseLabel.alpha = 1.0
+        if passLabel.text != NSLocalizedString("生成ボタンを押してください", comment: "") {
+            // 改行を削除
+            let trimmed: String = passLabel.text!.trimmingCharacters(in: .newlines)
+            passHistory.insert(trimmed, at: 0) // 先頭に要素を追加
+            passHistory.removeLast()
+            // 再ロード
+            passHistoryTableView.reloadData()
+        }
+        let passLength = userDefaults.object(forKey: "passLengthDataStore") as! String
+        // パスワード生成
+        passLabel.text = generatePass(length: Int(passLength)!)
     }
 
     // passLabel(button)タップ時処理
     @IBAction func passLabelTap(_ sender: Any) {
         if passLabel.text != NSLocalizedString("生成ボタンを押してください", comment: "") {
-            // 改行を削除
-            let trimmed = passLabel.text?.trimmingCharacters(in: .newlines)
-            // クリップボードにコピー
-            UIPasteboard.general.string = trimmed
-            // 触覚フィードバック
-            feedBack.notificationOccurred(.success)
-            // タイマー停止ののちフェードアウト実行
-            fadeOutTimer.invalidate()
-            copyAlertLabel.alpha = 1.0
-            // タップから0.5秒後に実行
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.fadeOutTimer = Timer.scheduledTimer(
-                    timeInterval: 0.05,
-                    target: self,
-                    selector: #selector(self.fade_in),
-                    userInfo: nil,
-                    repeats: true
-                )
-            }
+            copyToClipboard(copyTarget: passLabel.text!)
         }
     }
 
     // パスワード生成関数
-    private func passGenerate(length: Int) -> String {
+    private func generatePass(length: Int) -> String {
         //0oO 1lI| gq9
-        let data0 = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
-        let data1 = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
-        let data2 = ["1","2","3","4","5","6","7","8","9","0"]
-        let data3 = ["`","~","!","@","#","$","%","^","&","*","(",")","-","_","=","+","[","{","]","}","|",";",":","'",",","<",".",">","/","?"]
+        let upperCases = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+        let lowerCases = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+        let numbers = ["1","2","3","4","5","6","7","8","9","0"]
+        let symbols = ["`","~","!","@","#","$","%","^","&","*","(",")","-","_","=","+","[","{","]","}","|",";",":","'",",","<",".",">","/","?"]
         var usedData: [String] = []
         var randomString = ""
 
         if userDefaults.object(forKey: "letterType0DataStore") as! Bool == true {
-            usedData += data0
+            usedData += upperCases
         }
         if userDefaults.object(forKey: "letterType1DataStore") as! Bool == true {
-            usedData += data1
+            usedData += lowerCases
         }
         if userDefaults.object(forKey: "letterType2DataStore") as! Bool == true {
-            usedData += data2
+            usedData += numbers
         }
         if userDefaults.object(forKey: "letterType3DataStore") as! Bool == true {
-            usedData += data3
+            usedData += symbols
         }
 
         for _ in 0..<length {
-            let randomValue = arc4random_uniform(UInt32(usedData.count))
+            let randomValue = Int.random(in: 0..<usedData.endIndex)
             if randomString.count == 20 {
                 randomString += "\n"
             }
-            randomString += usedData[Int(randomValue)]
+            randomString += usedData[randomValue]
         }
 
         return randomString
+    }
+
+    private func copyToClipboard(copyTarget: String) {
+        // 改行を削除
+        let trimmed = copyTarget.trimmingCharacters(in: .newlines)
+        // クリップボードにコピー
+        UIPasteboard.general.string = trimmed
+        // 触覚フィードバック
+        feedBack.notificationOccurred(.success)
+        // タイマー停止ののちフェードアウト実行
+        fadeOutTimer.invalidate()
+        copyAlertLabel.alpha = 1.0
+        // タップから0.5秒後に実行
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.fadeOutTimer = Timer.scheduledTimer(
+                timeInterval: 0.05,
+                target: self,
+                selector: #selector(self.fade_in),
+                userInfo: nil,
+                repeats: true
+            )
+        }
     }
 
     // 設定画面へ移動
@@ -251,17 +249,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         // タップ後に灰色を消す
         tableView.deselectRow(at: indexPath, animated: true)
         // クリップボードにコピー
-        if cell?.textLabel!.text != "" {
-            UIPasteboard.general.string = cell?.textLabel!.text
-            // 触覚フィードバック
-            feedBack.notificationOccurred(.success)
-            // タイマー停止ののちフェードアウト実行
-            fadeOutTimer.invalidate()
-            copyAlertLabel.alpha = 1.0
-            // タップから0.5秒後に実行
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.fadeOutTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.fade_in), userInfo: nil, repeats: true)
-            }
+        if let cellContent = cell?.textLabel?.text, cellContent != "" {
+            copyToClipboard(copyTarget: cellContent)
         }
     }
     
