@@ -79,7 +79,7 @@ extension ConfigPageViewController: UITableViewDelegate, UITableViewDataSource {
                     cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
                 }
             } else if indexPath.section == 1 && indexPath.row == 0 {
-                cell.detailTextLabel!.text = globalVersion
+                cell.detailTextLabel!.text = appVersion
                 // セルの選択を不可にする
                 cell.selectionStyle = .none
             }

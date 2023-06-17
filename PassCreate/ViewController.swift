@@ -21,7 +21,7 @@
 
 import UIKit
 
-let globalVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
 
 class ViewController: UIViewController {
     
@@ -172,7 +172,7 @@ class ViewController: UIViewController {
             self.fadeOutTimer = Timer.scheduledTimer(
                 timeInterval: 0.05,
                 target: self,
-                selector: #selector(self.fade_in),
+                selector: #selector(self.fadeOutCopyAlertLabel),
                 userInfo: nil,
                 repeats: true
             )
@@ -241,7 +241,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     // 0.05秒ごとに実行される関数
-    @objc func fade_in() {
+    @objc func fadeOutCopyAlertLabel() {
         copyAlertLabel.alpha -= 0.1
         // 透明度がなくなったらタイマーを止める
         if (copyAlertLabel.alpha <= 0.0) {
