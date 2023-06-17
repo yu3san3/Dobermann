@@ -150,7 +150,6 @@ class PassLengthViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBAction func gotoConfigPage(_ sender: Any) {
         
         let parentVC = presentingViewController as! ConfigPageViewController
-        parentVC.updateTableView()
         self.dismiss(animated: true, completion: nil)
         
     }

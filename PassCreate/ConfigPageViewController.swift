@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ConfigPageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ConfigPageViewController: UIViewController {
     
     let userDefaults = UserDefaults.standard
     
@@ -22,32 +22,34 @@ class ConfigPageViewController: UIViewController, UITableViewDelegate, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationBar.title = NSLocalizedString("設定", comment: "")
-        navigationBarButton.title = NSLocalizedString("完了", comment: "")
-        
+
         configTableView.delegate = self
         configTableView.dataSource = self
 
+        navigationBar.title = NSLocalizedString("設定", comment: "")
+        navigationBarButton.title = NSLocalizedString("完了", comment: "")
     }
+
+    // パスワード生成画面に戻る
+    @IBAction func gotoCreatePage(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension ConfigPageViewController: UITableViewDelegate, UITableViewDataSource {
     
     // セクション数を指定
     func numberOfSections(in tableView: UITableView) -> Int {
-        
         return 2
-        
     }
     
     // セクションタイトルを指定
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
         return configTitle[section] as String
-        
     }
     
     // セル数を指定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         if section == 0 {
             return configContent0.count
         } else if section == 1 {
@@ -55,12 +57,10 @@ class ConfigPageViewController: UIViewController, UITableViewDelegate, UITableVi
         } else {
             return 0
         }
-        
     }
     
     // セルを生成
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         // セルを指定する
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "config", for: indexPath)
         // データのないセルを非表示
@@ -94,12 +94,10 @@ class ConfigPageViewController: UIViewController, UITableViewDelegate, UITableVi
         } else {
             return cell
         }
-        
     }
     
     // 選択したセルの情報を取得
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         // タップ後に灰色を消す
         tableView.deselectRow(at: indexPath, animated: true)
         // タップしたセルごとに処理を分岐
@@ -114,25 +112,5 @@ class ConfigPageViewController: UIViewController, UITableViewDelegate, UITableVi
                 present(letterTypeVC!, animated: true, completion: nil)
             }
         }
-        
     }
-    
-    // 画面遷移から戻ってきたときに実行する関数
-    func updateTableView() {
-        
-    }
-    
-    // パスワード生成画面に戻る
-    @IBAction func gotoCreatePage(_ sender: Any) {
-        
-        self.dismiss(animated: true, completion: nil)
-        
-    }
-    
-}
-
-protocol configPageViewControllerDelegate {
-    
-    func updateTableView()
-    
 }
