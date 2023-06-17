@@ -22,7 +22,6 @@ class LetterTypeViewController: UIViewController {
 
     @IBOutlet weak var letterTypeTableView: UITableView!
     @IBOutlet weak var navigationBar: UINavigationItem!
-    @IBOutlet weak var navigationBarButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,15 +30,15 @@ class LetterTypeViewController: UIViewController {
         letterTypeTableView.dataSource = self
 
         navigationBar.title = NSLocalizedString("使用する文字の設定", comment: "")
-        navigationBarButton.title = NSLocalizedString("完了", comment: "")
     }
 
-    // 設定画面に戻る
-    @IBAction func gotoConfigPage(_ sender: Any) {
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
         if userDefaults.object(forKey: "letterType0DataStore") as! Bool == false &&
-                userDefaults.object(forKey: "letterType1DataStore") as! Bool == false &&
-                userDefaults.object(forKey: "letterType2DataStore") as! Bool == false &&
-                userDefaults.object(forKey: "letterType3DataStore") as! Bool == false {
+        userDefaults.object(forKey: "letterType1DataStore") as! Bool == false &&
+        userDefaults.object(forKey: "letterType2DataStore") as! Bool == false &&
+        userDefaults.object(forKey: "letterType3DataStore") as! Bool == false {
             // ダイアログ
             let dialog = UIAlertController(
                 title: NSLocalizedString("パスワードを生成できません", comment: ""),
@@ -50,7 +49,6 @@ class LetterTypeViewController: UIViewController {
             self.present(dialog, animated: true, completion: nil)
             return
         }
-        self.dismiss(animated: true, completion: nil)
     }
 }
 

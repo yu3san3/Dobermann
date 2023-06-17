@@ -20,7 +20,6 @@ class PassLengthViewController: UIViewController {
     
     @IBOutlet weak var passLengthTableView: UITableView!
     @IBOutlet weak var navigationBar: UINavigationItem!
-    @IBOutlet weak var navigationBarButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,12 +28,6 @@ class PassLengthViewController: UIViewController {
         passLengthTableView.dataSource = self
 
         navigationBar.title = NSLocalizedString("パスワードの文字数", comment: "")
-        navigationBarButton.title = NSLocalizedString("完了", comment: "")
-    }
-
-    // 設定画面に戻る
-    @IBAction func gotoConfigPage(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
     }
 }
 

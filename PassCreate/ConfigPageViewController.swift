@@ -16,10 +16,10 @@ class ConfigPageViewController: UIViewController {
     let section0Content = [NSLocalizedString("パスワードの文字数", comment: ""), NSLocalizedString("使用する文字の設定", comment: "")]
     let section1Content = [NSLocalizedString("バージョン", comment: "")]
     
-    @IBOutlet weak var configTableView: UITableView!
+    @IBOutlet var configTableView: UITableView!
     @IBOutlet weak var navigationBar: UINavigationItem!
-    @IBOutlet weak var navigationBarButton: UIBarButtonItem!
-    
+    @IBOutlet weak var navigationBarButton: UIButton!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -27,12 +27,11 @@ class ConfigPageViewController: UIViewController {
         configTableView.dataSource = self
 
         navigationBar.title = NSLocalizedString("設定", comment: "")
-        navigationBarButton.title = NSLocalizedString("完了", comment: "")
+        navigationBarButton.setTitle(NSLocalizedString("完了", comment: ""), for: .normal)
     }
 
-    // パスワード生成画面に戻る
-    @IBAction func gotoCreatePage(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+    @IBAction func dismiss(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -69,17 +68,17 @@ extension ConfigPageViewController: UITableViewDelegate, UITableViewDataSource {
         if cell.accessoryView == nil {
             if indexPath.section == 0 {
                 if indexPath.row == 0 {
-                    cell.detailTextLabel!.text = ""
+                    cell.detailTextLabel?.text = ""
 //                    cell.detailTextLabel!.text = userDefaults.object(forKey: "passLengthDataStore") as? String
                     // >を追加
                     cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
                 } else if indexPath.row == 1 {
-                    cell.detailTextLabel!.text = ""
+                    cell.detailTextLabel?.text = ""
                     // >を追加
                     cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
                 }
             } else if indexPath.section == 1 && indexPath.row == 0 {
-                cell.detailTextLabel!.text = appVersion
+                cell.detailTextLabel?.text = appVersion
                 // セルの選択を不可にする
                 cell.selectionStyle = .none
             }
@@ -103,13 +102,11 @@ extension ConfigPageViewController: UITableViewDelegate, UITableViewDataSource {
         // タップしたセルごとに処理を分岐
         if indexPath.section == 0 {
             if indexPath.row == 0 {
-                let passLengthVC = self.storyboard?.instantiateViewController(identifier: "passLengthConfig")
-                passLengthVC?.modalTransitionStyle = .coverVertical
-                present(passLengthVC!, animated: true, completion: nil)
+                let passLengthViewController = self.storyboard?.instantiateViewController(withIdentifier: "passLengthConfig") as! PassLengthViewController
+                self.navigationController?.pushViewController(passLengthViewController, animated: true)
             } else if indexPath.row == 1 {
-                let letterTypeVC = self.storyboard?.instantiateViewController(identifier: "letterTypeConfig")
-                letterTypeVC?.modalTransitionStyle = .coverVertical
-                present(letterTypeVC!, animated: true, completion: nil)
+                let letterTypeViewController = self.storyboard?.instantiateViewController(withIdentifier: "letterTypeConfig") as! LetterTypeViewController
+                self.navigationController?.pushViewController(letterTypeViewController, animated: true)
             }
         }
     }
