@@ -31,6 +31,20 @@ class LetterTypeViewController: UIViewController {
 
     // 設定画面に戻る
     @IBAction func gotoConfigPage(_ sender: Any) {
+        if userDefaults.object(forKey: "letterType0DataStore") as! Bool == false &&
+                userDefaults.object(forKey: "letterType1DataStore") as! Bool == false &&
+                userDefaults.object(forKey: "letterType2DataStore") as! Bool == false &&
+                userDefaults.object(forKey: "letterType3DataStore") as! Bool == false {
+            // ダイアログ
+            let dialog = UIAlertController(
+                title: NSLocalizedString("パスワードを生成できません", comment: ""),
+                message: NSLocalizedString("パスワードに使用する文字を最低ひとつ\n選んでください。", comment: ""),
+                preferredStyle: .alert
+            )
+            dialog.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(dialog, animated: true, completion: nil)
+            return
+        }
         self.dismiss(animated: true, completion: nil)
     }
 }

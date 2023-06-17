@@ -101,21 +101,6 @@ class ViewController: UIViewController {
     
     // 生成ボタン処理
     @IBAction func createButton(_ sender: Any) {
-        if userDefaults.object(forKey: "letterType0DataStore") as! Bool == false &&
-                userDefaults.object(forKey: "letterType1DataStore") as! Bool == false &&
-                userDefaults.object(forKey: "letterType2DataStore") as! Bool == false &&
-                userDefaults.object(forKey: "letterType3DataStore") as! Bool == false {
-            // ダイアログ
-            let dialog = UIAlertController(
-                title: NSLocalizedString("パスワードを生成できません", comment: ""),
-                message: NSLocalizedString("パスワードに使用する文字を最低ひとつ\n選んでください。", comment: ""),
-                preferredStyle: .alert
-            )
-            dialog.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(dialog, animated: true, completion: nil)
-            print(userDefaults.object(forKey: "letterType0DataStore") as! Bool)
-            return
-        }
         howToUseLabel.alpha = 1.0
         if passLabel.text != NSLocalizedString("生成ボタンを押してください", comment: "") {
             // 改行を削除
