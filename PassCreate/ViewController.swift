@@ -17,6 +17,7 @@
 //  2022/04/17 Alpha 4.0.2(10)
 //       04/20 Alpha 4.0.3(11)
 //
+// TODO: - LetterTypeViewのsheetをスワイプでdismissできないようにしよう
 
 import UIKit
 

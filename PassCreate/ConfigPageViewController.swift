@@ -12,9 +12,9 @@ class ConfigPageViewController: UIViewController {
     
     let userDefaults = UserDefaults.standard
     
-    let configTitle = [NSLocalizedString("一般", comment: ""),NSLocalizedString("このアプリについて", comment: "")]
-    let configContent0 = [NSLocalizedString("パスワードの文字数", comment: ""),NSLocalizedString("使用する文字の設定", comment: "")]
-    let configContent1 = [NSLocalizedString("バージョン", comment: "")]
+    let sectionTitle = [NSLocalizedString("一般", comment: ""), NSLocalizedString("このアプリについて", comment: "")]
+    let section0Content = [NSLocalizedString("パスワードの文字数", comment: ""), NSLocalizedString("使用する文字の設定", comment: "")]
+    let section1Content = [NSLocalizedString("バージョン", comment: "")]
     
     @IBOutlet weak var configTableView: UITableView!
     @IBOutlet weak var navigationBar: UINavigationItem!
@@ -45,15 +45,15 @@ extension ConfigPageViewController: UITableViewDelegate, UITableViewDataSource {
     
     // セクションタイトルを指定
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return configTitle[section] as String
+        return sectionTitle[section] as String
     }
     
     // セル数を指定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return configContent0.count
+            return section0Content.count
         } else if section == 1 {
-            return configContent1.count
+            return section1Content.count
         } else {
             return 0
         }
@@ -70,7 +70,7 @@ extension ConfigPageViewController: UITableViewDelegate, UITableViewDataSource {
             if indexPath.section == 0 {
                 if indexPath.row == 0 {
                     cell.detailTextLabel!.text = ""
-                    //cell.detailTextLabel!.text = userDefaults.object(forKey: "passLengthDataStore") as? String
+//                    cell.detailTextLabel!.text = userDefaults.object(forKey: "passLengthDataStore") as? String
                     // >を追加
                     cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
                 } else if indexPath.row == 1 {
@@ -86,10 +86,10 @@ extension ConfigPageViewController: UITableViewDelegate, UITableViewDataSource {
         }
         // セルに表示する値を設定する
         if indexPath.section == 0 {
-            cell.textLabel!.text = configContent0[indexPath.row]
+            cell.textLabel!.text = section0Content[indexPath.row]
             return cell
         } else if indexPath.section == 1 {
-            cell.textLabel!.text = configContent1[indexPath.row]
+            cell.textLabel!.text = section1Content[indexPath.row]
             return cell
         } else {
             return cell

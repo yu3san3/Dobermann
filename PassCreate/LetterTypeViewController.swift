@@ -12,8 +12,13 @@ class LetterTypeViewController: UIViewController {
     
     let userDefaults = UserDefaults.standard
     
-    let configTitle = [""]
-    let configContent0 = [NSLocalizedString("A-Z 英字(大文字)", comment: ""),NSLocalizedString("a-z 英字(小文字)", comment: ""),NSLocalizedString("1-9 数字", comment: ""),NSLocalizedString("@ 記号", comment: "")]
+    let sectionTitle = [""]
+    let section0Content = [
+        NSLocalizedString("A-Z 英字(大文字)", comment: ""),
+        NSLocalizedString("a-z 英字(小文字)", comment: ""),
+        NSLocalizedString("1-9 数字", comment: ""),
+        NSLocalizedString("@ 記号", comment: "")
+    ]
 
     @IBOutlet weak var letterTypeTableView: UITableView!
     @IBOutlet weak var navigationBar: UINavigationItem!
@@ -58,13 +63,13 @@ extension LetterTypeViewController: UITableViewDelegate, UITableViewDataSource {
     
     // セクションタイトルを指定
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return configTitle[section] as String
+        return sectionTitle[section] as String
     }
     
     // セル数を指定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return configContent0.count
+            return section0Content.count
         } else {
             return 0
         }
@@ -94,7 +99,7 @@ extension LetterTypeViewController: UITableViewDelegate, UITableViewDataSource {
         }
         // セルの値を設定する
         if indexPath.section == 0 {
-            cell.textLabel!.text = configContent0[indexPath.row]
+            cell.textLabel!.text = section0Content[indexPath.row]
             return cell
         } else {
             return cell

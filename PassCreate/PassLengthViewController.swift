@@ -14,9 +14,9 @@ class PassLengthViewController: UIViewController {
     let userDefaults = UserDefaults.standard
     let lengthStepper: UIStepper = UIStepper()
 
-    let configTitle = [NSLocalizedString("簡易設定", comment: ""),NSLocalizedString("詳細設定", comment: "")]
-    let configContent0 = ["4","6","8","10","12","15","20","30","40"]
-    let configContent1 = [""]
+    let sectionTitle = [NSLocalizedString("簡易設定", comment: ""), NSLocalizedString("詳細設定", comment: "")]
+    let section0Content = ["4","6","8","10","12","15","20","30","40"]
+    let section1Content = [""]
     
     @IBOutlet weak var passLengthTableView: UITableView!
     @IBOutlet weak var navigationBar: UINavigationItem!
@@ -46,15 +46,15 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
 
     // セクションタイトルを指定
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return configTitle[section] as String
+        return sectionTitle[section] as String
     }
 
     // セル数を指定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return configContent0.count
+            return section0Content.count
         } else if section == 1 {
-            return configContent1.count
+            return section1Content.count
         } else {
             return 0
         }
@@ -83,8 +83,8 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
         }
         // チェックマーク描画
         if indexPath.section == 0 {
-            let length = userDefaults.object(forKey: "passLengthDataStore") as! String
-            if length == configContent0[indexPath.row] {
+            let passLength = userDefaults.object(forKey: "passLengthDataStore") as! String
+            if passLength == section0Content[indexPath.row] {
                 cell.accessoryType = .checkmark
             } else {
                 cell.accessoryType = .none
@@ -94,7 +94,7 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
         lengthStepper.addTarget(self, action: #selector(stepperDetector(_:)), for: UIControl.Event.touchUpInside)
         // セルの値を設定する
         if indexPath.section == 0 {
-            cell.textLabel!.text = configContent0[indexPath.row]
+            cell.textLabel!.text = section0Content[indexPath.row]
             return cell
         } else if indexPath.section == 1 {
             cell.textLabel!.text = String(Int(lengthStepper.value))
@@ -111,7 +111,7 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
         // タップ後に灰色を消す
         tableView.deselectRow(at: indexPath, animated: true)
         // すべてのチェックマークを消す
-        for i in 0..<configContent0.count {
+        for i in 0..<section0Content.count {
             let indexPath: NSIndexPath = NSIndexPath(row: i, section: indexPath.section)
             if let cell: UITableViewCell = tableView.cellForRow(at: indexPath as IndexPath) {
                 cell.accessoryType = .none
@@ -119,13 +119,13 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
         }
         // タップで文字数設定
         if indexPath.section == 0 {
-            for i in 4...configContent0.count+4 {
+            for i in 4...section0Content.count+4 {
                 if indexPath.row == i-4 {
                     // チェックマークを描画
                     cell?.accessoryType = .checkmark
-                    lengthStepper.value = Double(Int(configContent0[i-4])!)
+                    lengthStepper.value = Double(Int(section0Content[i-4])!)
                     // 選択を保存
-                    userDefaults.set(configContent0[i-4], forKey: "passLengthDataStore")
+                    userDefaults.set(section0Content[i-4], forKey: "passLengthDataStore")
                     UserDefaults.standard.synchronize()
                 }
             }
