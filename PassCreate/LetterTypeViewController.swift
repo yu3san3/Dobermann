@@ -44,10 +44,11 @@ class LetterTypeViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        if userDefaults.object(forKey: "letterType0DataStore") as! Bool == false &&
-        userDefaults.object(forKey: "letterType1DataStore") as! Bool == false &&
-        userDefaults.object(forKey: "letterType2DataStore") as! Bool == false &&
-        userDefaults.object(forKey: "letterType3DataStore") as! Bool == false {
+        let letterType = userDefaults.dictionary(forKey: "letterType") as! [String: Bool]
+        if letterType["upperCase"] == false &&
+            letterType["lowerCase"] == false &&
+            letterType["number"] == false &&
+            letterType["symbol"] == false {
             // ダイアログ
             let dialog = UIAlertController(
                 title: NSLocalizedString("パスワードを生成できません", comment: ""),
@@ -92,20 +93,28 @@ extension LetterTypeViewController: UITableViewDelegate, UITableViewDataSource {
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: letterTypeCellId, for: indexPath)
         // データのないセルを非表示
         letterTypeTableView.tableFooterView = UIView(frame: .zero)
-        // セルのステータスを決定
-        if cell.accessoryView == nil {
-            
-        }
+        let letterType = userDefaults.dictionary(forKey: LetterType.letterType.rawValue) as! [String: Bool]
         // チェックマーク描画
         if indexPath.section == 0 {
-            if indexPath.row == 0 && userDefaults.object(forKey: "letterType0DataStore") as! Bool == true {
+            switch indexPath.row {
+            case 0:
+                if letterType[LetterType.upperCase.rawValue] == true {
                     cell.accessoryType = .checkmark
-            } else if indexPath.row == 1 && userDefaults.object(forKey: "letterType1DataStore") as! Bool == true {
-                cell.accessoryType = .checkmark
-            } else if indexPath.row == 2 && userDefaults.object(forKey: "letterType2DataStore") as! Bool == true {
-                cell.accessoryType = .checkmark
-            } else if indexPath.row == 3 && userDefaults.object(forKey: "letterType3DataStore") as! Bool == true {
-                cell.accessoryType = .checkmark
+                }
+            case 1:
+                if letterType[LetterType.lowerCase.rawValue] == true {
+                    cell.accessoryType = .checkmark
+                }
+            case 2:
+                if letterType[LetterType.number.rawValue] == true {
+                    cell.accessoryType = .checkmark
+                }
+            case 3:
+                if letterType[LetterType.symbol.rawValue] == true {
+                    cell.accessoryType = .checkmark
+                }
+            default:
+                return cell
             }
         }
         // セルの値を設定する
@@ -123,40 +132,35 @@ extension LetterTypeViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.cellForRow(at:indexPath)
         // タップ後に灰色を消す
         tableView.deselectRow(at: indexPath, animated: true)
+        let letterType = userDefaults.dictionary(forKey: LetterType.letterType.rawValue) as! [String: Bool]
+        var letterTypeToSave: [String: Bool] = letterType
         // タップで文字数設定
         if indexPath.section == 0 {
-            if indexPath.row == 0 {
-                if userDefaults.object(forKey: "letterType0DataStore") as! Bool == false {
-                    cell?.accessoryType = .checkmark
-                    userDefaults.set(true, forKey: "letterType0DataStore")
-                } else {
-                    userDefaults.set(false, forKey: "letterType0DataStore")
-                    cell?.accessoryType = .none
-                }
-            } else if indexPath.row == 1 {
-                if userDefaults.object(forKey: "letterType1DataStore") as! Bool == false {
-                    cell?.accessoryType = .checkmark
-                    userDefaults.set(true, forKey: "letterType1DataStore")
-                } else {
-                    userDefaults.set(false, forKey: "letterType1DataStore")
-                    cell?.accessoryType = .none
-                }
-            } else if indexPath.row == 2 {
-                if userDefaults.object(forKey: "letterType2DataStore") as! Bool  == false {
-                    cell?.accessoryType = .checkmark
-                    userDefaults.set(true, forKey: "letterType2DataStore")
-                } else {
-                    userDefaults.set(false, forKey: "letterType2DataStore")
-                    cell?.accessoryType = .none
-                }
-            } else if indexPath.row == 3 {
-                if userDefaults.object(forKey: "letterType3DataStore") as! Bool  == false {
-                    cell?.accessoryType = .checkmark
-                    userDefaults.set(true, forKey: "letterType3DataStore")
-                } else {
-                    userDefaults.set(false, forKey: "letterType3DataStore")
-                    cell?.accessoryType = .none
-                }
+            switch indexPath.row {
+            case 0:
+                letterTypeToSave[LetterType.upperCase.rawValue]?.toggle()
+                toggleAccessoryType(letterType: letterType[LetterType.upperCase.rawValue]!)
+            case 1:
+                letterTypeToSave[LetterType.lowerCase.rawValue]?.toggle()
+                toggleAccessoryType(letterType: letterType[LetterType.lowerCase.rawValue]!)
+            case 2:
+                letterTypeToSave[LetterType.number.rawValue]?.toggle()
+                toggleAccessoryType(letterType: letterType[LetterType.number.rawValue]!)
+            case 3:
+                letterTypeToSave[LetterType.symbol.rawValue]?.toggle()
+                toggleAccessoryType(letterType: letterType[LetterType.symbol.rawValue]!)
+            default:
+                return
+            }
+        }
+        userDefaults.set(letterTypeToSave, forKey: LetterType.letterType.rawValue)
+        return
+
+        func toggleAccessoryType(letterType: Bool) {
+            if letterType == false {
+                cell?.accessoryType = .checkmark
+            } else {
+                cell?.accessoryType = .none
             }
         }
     }

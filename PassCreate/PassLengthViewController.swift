@@ -72,6 +72,7 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: passLengthCellId, for: indexPath)
         // データのないセルを非表示
         passLengthTableView.tableFooterView = UIView(frame: .zero)
+        let passLength = userDefaults.integer(forKey: PassLength.passLength.rawValue)
         // セルのステータスを決定
         if cell.accessoryView == nil {
             if indexPath.section == 1 {
@@ -81,7 +82,7 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
                     // 最大値,最小値,初期値を設定
                     lengthStepper.maximumValue = 40
                     lengthStepper.minimumValue = 4
-                    lengthStepper.value = Double(userDefaults.object(forKey: "passLengthDataStore") as! String)!
+                    lengthStepper.value = Double(passLength)
                     // stepperを設置
                     cell.accessoryView = lengthStepper
                 }
@@ -89,8 +90,7 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
         }
         // チェックマーク描画
         if indexPath.section == 0 {
-            let passLength = userDefaults.object(forKey: "passLengthDataStore") as! String
-            if passLength == section0Content[indexPath.row] {
+            if section0Content[indexPath.row] == String(passLength) {
                 cell.accessoryType = .checkmark
             } else {
                 cell.accessoryType = .none
@@ -131,7 +131,7 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
                     cell?.accessoryType = .checkmark
                     lengthStepper.value = Double(Int(section0Content[i-4])!)
                     // 選択を保存
-                    userDefaults.set(section0Content[i-4], forKey: "passLengthDataStore")
+                    userDefaults.set(Int(section0Content[i-4])!, forKey: PassLength.passLength.rawValue)
                     UserDefaults.standard.synchronize()
                 }
             }
@@ -142,7 +142,7 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
     
     // stepperの操作で実行
     @objc func stepperDetector(_ sender: UIStepper) {
-        userDefaults.set(String(Int(lengthStepper.value)), forKey: "passLengthDataStore")
+        userDefaults.set(Int(lengthStepper.value), forKey: PassLength.passLength.rawValue)
         //passLengthTableView.reloadData()
         //*1
     }

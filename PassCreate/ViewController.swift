@@ -57,12 +57,15 @@ class ViewController: UIViewController {
         }
         
         // passLengthデフォルト値
-        userDefaults.register(defaults: ["passLengthDataStore": "10"])
+        userDefaults.register(defaults: [PassLength.passLength.rawValue: 10])
         // letterTypeデフォルト値
-        userDefaults.register(defaults: ["letterType0DataStore": true])
-        userDefaults.register(defaults: ["letterType1DataStore": true])
-        userDefaults.register(defaults: ["letterType2DataStore": true])
-        userDefaults.register(defaults: ["letterType3DataStore": false])
+        let defaultLetterType: [String: Bool] = [
+            LetterType.upperCase.rawValue: true,
+            LetterType.lowerCase.rawValue: true,
+            LetterType.number.rawValue: true,
+            LetterType.symbol.rawValue: false
+        ]
+        userDefaults.register(defaults: [LetterType.letterType.rawValue: defaultLetterType])
 
         setupView()
     }
@@ -112,9 +115,9 @@ class ViewController: UIViewController {
             // 再ロード
             passHistoryTableView.reloadData()
         }
-        let passLength = userDefaults.object(forKey: "passLengthDataStore") as! String
+        let passLength = userDefaults.integer(forKey: PassLength.passLength.rawValue)
         // パスワード生成
-        passLabel.text = generatePass(length: Int(passLength)!)
+        passLabel.text = generatePass(length: passLength)
     }
 
     // passLabel(button)タップ時処理
@@ -134,16 +137,17 @@ class ViewController: UIViewController {
         var usedData: [String] = []
         var randomString = ""
 
-        if userDefaults.object(forKey: "letterType0DataStore") as! Bool == true {
+        let letterType = userDefaults.dictionary(forKey: "letterType") as! [String: Bool]
+        if letterType["upperCase"] == true {
             usedData += upperCases
         }
-        if userDefaults.object(forKey: "letterType1DataStore") as! Bool == true {
+        if letterType["lowerCase"] == true {
             usedData += lowerCases
         }
-        if userDefaults.object(forKey: "letterType2DataStore") as! Bool == true {
+        if letterType["number"] == true {
             usedData += numbers
         }
-        if userDefaults.object(forKey: "letterType3DataStore") as! Bool == true {
+        if letterType["symbol"] == true {
             usedData += symbols
         }
 
