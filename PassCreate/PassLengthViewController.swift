@@ -28,13 +28,11 @@ class PassLengthViewController: UIViewController {
         passLengthTableView.delegate = self
         passLengthTableView.dataSource = self
 
-        //dismissボタンを生成
         dismissButton = UIBarButtonItem(
             barButtonSystemItem: .stop,
             target: self,
             action: #selector(backToTop)
         )
-        //dismissボタンを追加
         self.navigationItem.rightBarButtonItem = dismissButton
 
         navigationBar.title = NSLocalizedString("パスワードの文字数", comment: "")

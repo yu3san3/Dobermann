@@ -26,11 +26,13 @@ class ConfigViewController: UIViewController {
         configTableView.delegate = self
         configTableView.dataSource = self
 
+        //dismissボタンを生成
         dismissButton = UIBarButtonItem(
             barButtonSystemItem: .stop,
             target: self,
             action: #selector(backToTop)
         )
+        //dismissボタンを追加
         self.navigationItem.rightBarButtonItem = dismissButton
 
         navigationBar.title = NSLocalizedString("設定", comment: "")
