@@ -127,26 +127,10 @@
                             </tableViewCell>
                         </prototypes>
                     </tableView>
-                    <navigationItem key="navigationItem" title="設定" id="RKD-4E-hza">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="V9K-Ao-pe8">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="IBu-6N-n2G">
-                                <rect key="frame" x="276" y="10.5" width="83" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="完了"/>
-                                <connections>
-                                    <action selector="dismiss:" destination="Gj6-dI-63W" eventType="touchUpInside" id="JFt-HM-ge9"/>
-                                </connections>
-                            </button>
-                            <connections>
-                                <action selector="dismiss:" destination="Gj6-dI-63W" id="Dc6-QV-0pf"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="設定" id="RKD-4E-hza"/>
                     <connections>
                         <outlet property="configTableView" destination="sWj-Pe-r7f" id="cEJ-MG-rKo"/>
                         <outlet property="navigationBar" destination="RKD-4E-hza" id="a89-La-d6U"/>
-                        <outlet property="navigationBarButton" destination="IBu-6N-n2G" id="rM3-Fd-pLx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZVs-aB-b5e" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

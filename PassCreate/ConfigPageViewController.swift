@@ -18,7 +18,7 @@ class ConfigPageViewController: UIViewController {
     
     @IBOutlet var configTableView: UITableView!
     @IBOutlet weak var navigationBar: UINavigationItem!
-    @IBOutlet weak var navigationBarButton: UIButton!
+    var dismissButton: UIBarButtonItem!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,11 +26,17 @@ class ConfigPageViewController: UIViewController {
         configTableView.delegate = self
         configTableView.dataSource = self
 
+        dismissButton = UIBarButtonItem(
+            barButtonSystemItem: .stop,
+            target: self,
+            action: #selector(backToTop)
+        )
+        self.navigationItem.rightBarButtonItem = dismissButton
+
         navigationBar.title = NSLocalizedString("設定", comment: "")
-        navigationBarButton.setTitle(NSLocalizedString("完了", comment: ""), for: .normal)
     }
 
-    @IBAction func dismiss(_ sender: Any) {
+    @objc func backToTop() {
         dismiss(animated: true, completion: nil)
     }
 }
