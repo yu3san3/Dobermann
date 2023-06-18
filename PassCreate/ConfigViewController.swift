@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ConfigPageViewController: UIViewController {
+class ConfigViewController: UIViewController {
     
     let userDefaults = UserDefaults.standard
     
@@ -41,7 +41,7 @@ class ConfigPageViewController: UIViewController {
     }
 }
 
-extension ConfigPageViewController: UITableViewDelegate, UITableViewDataSource {
+extension ConfigViewController: UITableViewDelegate, UITableViewDataSource {
     
     // セクション数を指定
     func numberOfSections(in tableView: UITableView) -> Int {
