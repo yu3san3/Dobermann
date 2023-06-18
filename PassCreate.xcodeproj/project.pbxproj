@@ -123,8 +123,7 @@
 				EBB7E2062434BED500F96370 /* ConfigViewController.swift */,
 				EB0972BE24362A4300276B22 /* PassLengthViewController.swift */,
 				EB96B675243C195800582A67 /* LetterTypeViewController.swift */,
-				EBE56A382A3F304900160E73 /* PassLength.swift */,
-				EBE56A362A3F2BEA00160E73 /* LetterType.swift */,
+				EBE56A3A2A3F35E000160E73 /* Other */,
 				EBB6A9BA243212DF00922D6B /* Main.storyboard */,
 				EBB6A9BD243212DF00922D6B /* Assets.xcassets */,
 				EBB6A9BF243212DF00922D6B /* LaunchScreen.storyboard */,
@@ -149,6 +148,15 @@
 				EBB6A9D8243212DF00922D6B /* Info.plist */,
 			);
 			path = PassCreateUITests;
+			sourceTree = "<group>";
+		};
+		EBE56A3A2A3F35E000160E73 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				EBE56A382A3F304900160E73 /* PassLength.swift */,
+				EBE56A362A3F2BEA00160E73 /* LetterType.swift */,
+			);
+			path = Other;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
