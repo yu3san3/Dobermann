@@ -153,6 +153,22 @@ extension LetterTypeViewController: UITableViewDelegate, UITableViewDataSource {
                 return
             }
         }
+        //すべての文字の種類が選択されなかった場合
+        if letterTypeToSave[LetterType.upperCase.rawValue] == false &&
+            letterTypeToSave[LetterType.lowerCase.rawValue] == false &&
+            letterTypeToSave[LetterType.number.rawValue] == false &&
+            letterTypeToSave[LetterType.symbol.rawValue] == false {
+            // ダイアログ
+            let dialog = UIAlertController(
+                title: NSLocalizedString("パスワードを生成できません", comment: ""),
+                message: NSLocalizedString("パスワードに使用する文字を最低ひとつ\n選んでください。", comment: ""),
+                preferredStyle: .alert
+            )
+            dialog.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(dialog, animated: true, completion: nil)
+            letterTypeTableView.reloadData()
+            return
+        }
         userDefaults.set(letterTypeToSave, forKey: LetterType.letterType.rawValue)
         return
 
