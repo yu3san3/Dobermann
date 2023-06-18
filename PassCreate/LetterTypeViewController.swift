@@ -22,12 +22,20 @@ class LetterTypeViewController: UIViewController {
 
     @IBOutlet weak var letterTypeTableView: UITableView!
     @IBOutlet weak var navigationBar: UINavigationItem!
+    var dismissButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         letterTypeTableView.delegate = self
         letterTypeTableView.dataSource = self
+
+        dismissButton = UIBarButtonItem(
+            barButtonSystemItem: .stop,
+            target: self,
+            action: #selector(backToTop)
+        )
+        self.navigationItem.rightBarButtonItem = dismissButton
 
         navigationBar.title = NSLocalizedString("使用する文字の設定", comment: "")
     }
@@ -49,6 +57,10 @@ class LetterTypeViewController: UIViewController {
             self.present(dialog, animated: true, completion: nil)
             return
         }
+    }
+
+    @objc func backToTop() {
+        dismiss(animated: true, completion: nil)
     }
 }
 

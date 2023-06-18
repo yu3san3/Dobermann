@@ -20,6 +20,7 @@ class PassLengthViewController: UIViewController {
     
     @IBOutlet weak var passLengthTableView: UITableView!
     @IBOutlet weak var navigationBar: UINavigationItem!
+    var dismissButton: UIBarButtonItem!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +29,7 @@ class PassLengthViewController: UIViewController {
         passLengthTableView.dataSource = self
 
         //dismissボタンを生成
-        let dismissButton = UIBarButtonItem(
+        dismissButton = UIBarButtonItem(
             barButtonSystemItem: .stop,
             target: self,
             action: #selector(backToTop)
