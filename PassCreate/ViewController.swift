@@ -23,10 +23,10 @@ import UIKit
 let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
 
 class ViewController: UIViewController {
-    
+
+    let userDefaults = UserDefaults.standard
     let feedBack = UINotificationFeedbackGenerator()
     var fadeOutTimer = Timer()
-    let userDefaults = UserDefaults.standard
     let passHistoryCellId = "passHistoryTableViewCell"
 
     var passHistory = [String](repeating: "", count: 20)
@@ -54,22 +54,23 @@ class ViewController: UIViewController {
             windowScene.sizeRestrictions?.minimumSize = CGSize(width: 550, height: 800)
             windowScene.sizeRestrictions?.maximumSize = CGSize(width: 550, height: 800)
         }
-        
-        // passLengthデフォルト値
-        userDefaults.register(defaults: [PassLength.passLength.rawValue: 10])
-        // letterTypeデフォルト値
+
+        setupUserDefaults()
+        setupView()
+    }
+
+    private func setupUserDefaults() {
         let defaultLetterType: [String: Bool] = [
             LetterType.upperCase.rawValue: true,
             LetterType.lowerCase.rawValue: true,
             LetterType.number.rawValue: true,
             LetterType.symbol.rawValue: false
         ]
+        userDefaults.register(defaults: [PassLength.passLength.rawValue: 10])
         userDefaults.register(defaults: [LetterType.letterType.rawValue: defaultLetterType])
-
-        setupView()
     }
 
-    func setupView() {
+    private func setupView() {
 
         let screenWidth: CGFloat = self.view.frame.width
         let screenHeight: CGFloat = self.view.frame.height
@@ -111,11 +112,9 @@ class ViewController: UIViewController {
             let trimmed: String = passLabel.text!.trimmingCharacters(in: .newlines)
             passHistory.insert(trimmed, at: 0) // 先頭に要素を追加
             passHistory.removeLast()
-            // 再ロード
             passHistoryTableView.reloadData()
         }
         let passLength = userDefaults.integer(forKey: PassLength.passLength.rawValue)
-        // パスワード生成
         passLabel.text = generatePass(length: passLength)
     }
 
@@ -126,6 +125,13 @@ class ViewController: UIViewController {
         }
     }
 
+    // 設定画面へ移動
+    @IBAction func gotoConfigPage(_ sender: Any) {
+        let configVC = self.storyboard?.instantiateViewController(identifier: "configView")
+        configVC?.modalTransitionStyle = .coverVertical
+        present(configVC!, animated: true, completion: nil)
+    }
+
     // パスワード生成関数
     private func generatePass(length: Int) -> String {
         //0oO 1lI| gq9
@@ -133,10 +139,12 @@ class ViewController: UIViewController {
         let lowerCases = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
         let numbers = ["1","2","3","4","5","6","7","8","9","0"]
         let symbols = ["`","~","!","@","#","$","%","^","&","*","(",")","-","_","=","+","[","{","]","}","|",";",":","'",",","<",".",">","/","?"]
+
         var usedData: [String] = []
-        var randomString = ""
+        var result = ""
 
         let letterType = userDefaults.dictionary(forKey: "letterType") as! [String: Bool]
+
         if letterType["upperCase"] == true {
             usedData += upperCases
         }
@@ -152,13 +160,13 @@ class ViewController: UIViewController {
 
         for _ in 0..<length {
             let randomValue = Int.random(in: 0..<usedData.endIndex)
-            if randomString.count == 20 {
-                randomString += "\n"
+            if result.count == 20 {
+                result += "\n"
             }
-            randomString += usedData[randomValue]
+            result += usedData[randomValue]
         }
 
-        return randomString
+        return result
     }
 
     private func copyToClipboard(copyTarget: String) {
@@ -183,11 +191,13 @@ class ViewController: UIViewController {
         }
     }
 
-    // 設定画面へ移動
-    @IBAction func gotoConfigPage(_ sender: Any) {
-        let configVC = self.storyboard?.instantiateViewController(identifier: "configView")
-        configVC?.modalTransitionStyle = .coverVertical
-        present(configVC!, animated: true, completion: nil)
+    // 0.05秒ごとに実行される関数
+    @objc func fadeOutCopyAlertLabel() {
+        copyAlertLabel.alpha -= 0.1
+        // 透明度がなくなったらタイマーを止める
+        if (copyAlertLabel.alpha <= 0.0) {
+            fadeOutTimer.invalidate()
+        }
     }
 }
 
@@ -215,14 +225,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     // セルを生成
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // セルを指定する
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: passHistoryCellId, for: indexPath)
         // データのないセルを非表示
         passHistoryTableView.tableFooterView = UIView(frame: .zero)
-        // セルのステータスを決定
-        if cell.accessoryView == nil {
-            
-        }
         // セルに表示する値を設定する
         if indexPath.section == 0 {
             cell.textLabel!.text = passHistory[indexPath.row]
@@ -241,15 +246,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         // クリップボードにコピー
         if let cellContent = cell?.textLabel?.text, cellContent != "" {
             copyToClipboard(copyTarget: cellContent)
-        }
-    }
-    
-    // 0.05秒ごとに実行される関数
-    @objc func fadeOutCopyAlertLabel() {
-        copyAlertLabel.alpha -= 0.1
-        // 透明度がなくなったらタイマーを止める
-        if (copyAlertLabel.alpha <= 0.0) {
-            fadeOutTimer.invalidate()
         }
     }
 }

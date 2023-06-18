@@ -13,8 +13,14 @@ class ConfigViewController: UIViewController {
     let userDefaults = UserDefaults.standard
     let configCellId = "configTableViewCell"
     
-    let sectionTitle = [NSLocalizedString("一般", comment: ""), NSLocalizedString("このアプリについて", comment: "")]
-    let section0Content = [NSLocalizedString("パスワードの文字数", comment: ""), NSLocalizedString("使用する文字の設定", comment: "")]
+    let sectionTitle = [
+        NSLocalizedString("一般", comment: ""),
+        NSLocalizedString("このアプリについて", comment: "")
+    ]
+    let section0Content = [
+        NSLocalizedString("パスワードの文字数", comment: ""),
+        NSLocalizedString("使用する文字の設定", comment: "")
+    ]
     let section1Content = [NSLocalizedString("バージョン", comment: "")]
     
     @IBOutlet var configTableView: UITableView!
@@ -27,6 +33,12 @@ class ConfigViewController: UIViewController {
         configTableView.delegate = self
         configTableView.dataSource = self
 
+        setupView()
+    }
+
+    private func setupView() {
+        navigationBar.title = NSLocalizedString("設定", comment: "")
+
         //dismissボタンを生成
         dismissButton = UIBarButtonItem(
             barButtonSystemItem: .stop,
@@ -35,8 +47,6 @@ class ConfigViewController: UIViewController {
         )
         //dismissボタンを追加
         self.navigationItem.rightBarButtonItem = dismissButton
-
-        navigationBar.title = NSLocalizedString("設定", comment: "")
     }
 
     @objc func backToTop() {
@@ -58,11 +68,12 @@ extension ConfigViewController: UITableViewDelegate, UITableViewDataSource {
     
     // セル数を指定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
+        switch section {
+        case 0:
             return section0Content.count
-        } else if section == 1 {
+        case 1:
             return section1Content.count
-        } else {
+        default:
             return 0
         }
     }
@@ -71,37 +82,34 @@ extension ConfigViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // セルを指定する
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: configCellId, for: indexPath)
+        let passLength = userDefaults.integer(forKey: PassLength.passLength.rawValue)
         // データのないセルを非表示
         configTableView.tableFooterView = UIView(frame: .zero)
         // セルのステータスを決定
-        if cell.accessoryView == nil {
-            if indexPath.section == 0 {
-                if indexPath.row == 0 {
-                    cell.detailTextLabel?.text = ""
-//                    cell.detailTextLabel!.text = userDefaults.object(forKey: "passLengthDataStore") as? String
-                    // >を追加
-                    cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
-                } else if indexPath.row == 1 {
-                    cell.detailTextLabel?.text = ""
-                    // >を追加
-                    cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
-                }
-            } else if indexPath.section == 1 && indexPath.row == 0 {
-                cell.detailTextLabel?.text = appVersion
-                // セルの選択を不可にする
-                cell.selectionStyle = .none
-            }
-        }
-        // セルに表示する値を設定する
-        if indexPath.section == 0 {
+        switch indexPath.section {
+        case 0:
             cell.textLabel!.text = section0Content[indexPath.row]
-            return cell
-        } else if indexPath.section == 1 {
+            switch indexPath.row {
+            case 0:
+                cell.detailTextLabel?.text = String(passLength)
+                // >を追加
+                cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
+            case 1:
+                cell.detailTextLabel?.text = ""
+                // >を追加
+                cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
+            default:
+                break
+            }
+        case 1:
             cell.textLabel!.text = section1Content[indexPath.row]
-            return cell
-        } else {
-            return cell
+            cell.detailTextLabel?.text = appVersion
+            // セルの選択を不可にする
+            cell.selectionStyle = .none
+        default:
+            break
         }
+        return cell
     }
     
     // 選択したセルの情報を取得
@@ -110,12 +118,15 @@ extension ConfigViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         // タップしたセルごとに処理を分岐
         if indexPath.section == 0 {
-            if indexPath.row == 0 {
+            switch indexPath.row {
+            case 0:
                 let passLengthViewController = self.storyboard?.instantiateViewController(withIdentifier: "passLengthView") as! PassLengthViewController
                 self.navigationController?.pushViewController(passLengthViewController, animated: true)
-            } else if indexPath.row == 1 {
+            case 1:
                 let letterTypeViewController = self.storyboard?.instantiateViewController(withIdentifier: "letterTypeView") as! LetterTypeViewController
                 self.navigationController?.pushViewController(letterTypeViewController, animated: true)
+            default:
+                return
             }
         }
     }
