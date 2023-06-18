@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		EB02CE9D245D1258007BD005 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EB02CE9F245D1258007BD005 /* Localizable.strings */; };
 		EB0972BF24362A4300276B22 /* PassLengthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0972BE24362A4300276B22 /* PassLengthViewController.swift */; };
+		EB92E7CF2A3F6F8E00597767 /* ConfigStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB92E7CE2A3F6F8E00597767 /* ConfigStrings.swift */; };
 		EB96B676243C195800582A67 /* LetterTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96B675243C195800582A67 /* LetterTypeViewController.swift */; };
 		EBB6A9B5243212DE00922D6B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB6A9B4243212DE00922D6B /* AppDelegate.swift */; };
 		EBB6A9B7243212DF00922D6B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB6A9B6243212DF00922D6B /* SceneDelegate.swift */; };
@@ -19,8 +20,6 @@
 		EBB6A9CC243212DF00922D6B /* PassCreateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB6A9CB243212DF00922D6B /* PassCreateTests.swift */; };
 		EBB6A9D7243212DF00922D6B /* PassCreateUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB6A9D6243212DF00922D6B /* PassCreateUITests.swift */; };
 		EBB7E2072434BED500F96370 /* ConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB7E2062434BED500F96370 /* ConfigViewController.swift */; };
-		EBE56A372A3F2BEA00160E73 /* LetterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE56A362A3F2BEA00160E73 /* LetterType.swift */; };
-		EBE56A392A3F304900160E73 /* PassLength.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE56A382A3F304900160E73 /* PassLength.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +46,7 @@
 		EB02CEA0245D126B007BD005 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EB0972BE24362A4300276B22 /* PassLengthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassLengthViewController.swift; sourceTree = "<group>"; };
 		EB77F3C026B6575600823BEF /* Dobermann.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Dobermann.entitlements; sourceTree = "<group>"; };
+		EB92E7CE2A3F6F8E00597767 /* ConfigStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigStrings.swift; sourceTree = "<group>"; };
 		EB96B675243C195800582A67 /* LetterTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterTypeViewController.swift; sourceTree = "<group>"; };
 		EBB6A9B1243212DE00922D6B /* Dobermann.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dobermann.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBB6A9B4243212DE00922D6B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -63,8 +63,6 @@
 		EBB6A9D6243212DF00922D6B /* PassCreateUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassCreateUITests.swift; sourceTree = "<group>"; };
 		EBB6A9D8243212DF00922D6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EBB7E2062434BED500F96370 /* ConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigViewController.swift; sourceTree = "<group>"; };
-		EBE56A362A3F2BEA00160E73 /* LetterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterType.swift; sourceTree = "<group>"; };
-		EBE56A382A3F304900160E73 /* PassLength.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassLength.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,8 +151,7 @@
 		EBE56A3A2A3F35E000160E73 /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				EBE56A382A3F304900160E73 /* PassLength.swift */,
-				EBE56A362A3F2BEA00160E73 /* LetterType.swift */,
+				EB92E7CE2A3F6F8E00597767 /* ConfigStrings.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -294,9 +291,8 @@
 			files = (
 				EB96B676243C195800582A67 /* LetterTypeViewController.swift in Sources */,
 				EBB6A9B9243212DF00922D6B /* ViewController.swift in Sources */,
-				EBE56A372A3F2BEA00160E73 /* LetterType.swift in Sources */,
+				EB92E7CF2A3F6F8E00597767 /* ConfigStrings.swift in Sources */,
 				EBB6A9B5243212DE00922D6B /* AppDelegate.swift in Sources */,
-				EBE56A392A3F304900160E73 /* PassLength.swift in Sources */,
 				EB0972BF24362A4300276B22 /* PassLengthViewController.swift in Sources */,
 				EBB6A9B7243212DF00922D6B /* SceneDelegate.swift in Sources */,
 				EBB7E2072434BED500F96370 /* ConfigViewController.swift in Sources */,

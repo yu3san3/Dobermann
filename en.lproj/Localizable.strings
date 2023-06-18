@@ -36,6 +36,8 @@
 
 "使用する文字の設定" = "Character Type";
 
+"読みにくい文字を除外する" = "Exclude confusing characters";
+
 "このアプリについて" = "ABOUT Dobermann";
 
 "バージョン" = "Version";

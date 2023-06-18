@@ -19,12 +19,14 @@ class ConfigViewController: UIViewController {
     ]
     let section0Content = [
         NSLocalizedString("パスワードの文字数", comment: ""),
-        NSLocalizedString("使用する文字の設定", comment: "")
+        NSLocalizedString("使用する文字の設定", comment: ""),
+        NSLocalizedString("読みにくい文字を除外する", comment: "")
     ]
     let section1Content = [NSLocalizedString("バージョン", comment: "")]
     
     @IBOutlet var configTableView: UITableView!
     @IBOutlet weak var navigationBar: UINavigationItem!
+    let excludeConfusingCharactersSwitch = UISwitch(frame: .zero)
     var dismissButton: UIBarButtonItem!
 
     override func viewDidLoad() {
@@ -39,6 +41,12 @@ class ConfigViewController: UIViewController {
     private func setupView() {
         navigationBar.title = NSLocalizedString("設定", comment: "")
 
+        excludeConfusingCharactersSwitch.setOn(
+            userDefaults.bool(forKey: ExcludeCharacters.excludeCharacters.rawValue),
+            animated: true
+        )
+        excludeConfusingCharactersSwitch.addTarget(self, action: #selector(self.switchChanged(_:)), for: .valueChanged)
+
         //dismissボタンを生成
         dismissButton = UIBarButtonItem(
             barButtonSystemItem: .stop,
@@ -47,6 +55,15 @@ class ConfigViewController: UIViewController {
         )
         //dismissボタンを追加
         self.navigationItem.rightBarButtonItem = dismissButton
+    }
+
+    //スイッチのコールバックメソッド
+    @objc func switchChanged(_ sender : UISwitch!) {
+        if sender.isOn {
+            userDefaults.set(true, forKey: ExcludeCharacters.excludeCharacters.rawValue)
+        } else {
+            userDefaults.set(false, forKey: ExcludeCharacters.excludeCharacters.rawValue)
+        }
     }
 
     @objc func backToTop() {
@@ -65,6 +82,18 @@ extension ConfigViewController: UITableViewDelegate, UITableViewDataSource {
     // セクションタイトルを指定
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sectionTitle[section] as String
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 60
+    }
+
+    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        var footerTitle: String = ""
+        if section == 0 {
+            footerTitle = "読みにくい記号(0,o,O,1,l,I,|,g,q,9など)を除外します。"
+        }
+        return footerTitle
     }
     
     // セル数を指定
@@ -99,6 +128,10 @@ extension ConfigViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.detailTextLabel?.text = ""
                 // >を追加
                 cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
+            case 2:
+                cell.detailTextLabel?.text = ""
+                excludeConfusingCharactersSwitch.tag = indexPath.row //どの行のスイッチが変更されたかを検出する
+                cell.accessoryView = excludeConfusingCharactersSwitch
             default:
                 break
             }
