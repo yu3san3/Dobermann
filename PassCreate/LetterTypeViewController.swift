@@ -50,6 +50,7 @@ class LetterTypeViewController: UIViewController {
     }
 }
 
+//MARK: - UITableViewDelegate, UITableViewDataSource
 extension LetterTypeViewController: UITableViewDelegate, UITableViewDataSource {
     
     // セクション数を指定

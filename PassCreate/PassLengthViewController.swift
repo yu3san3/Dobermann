@@ -48,6 +48,7 @@ class PassLengthViewController: UIViewController {
     }
 }
 
+//MARK: - UITableViewDelegate, UITableViewDataSource
 extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
     // セクション数を指定
     func numberOfSections(in tableView: UITableView) -> Int {

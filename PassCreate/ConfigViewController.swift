@@ -54,6 +54,7 @@ class ConfigViewController: UIViewController {
     }
 }
 
+//MARK: - UITableViewDelegate, UITableViewDataSource
 extension ConfigViewController: UITableViewDelegate, UITableViewDataSource {
     
     // セクション数を指定
