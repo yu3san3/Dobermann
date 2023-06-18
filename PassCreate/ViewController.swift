@@ -16,6 +16,7 @@
 //       12/18 Alpha 4.0.1(9)
 //  2022/04/17 Alpha 4.0.2(10)
 //       04/20 Alpha 4.0.3(11)
+//  2023/06/19 Alpha 4.1.0(12)
 //
 
 import UIKit
@@ -81,6 +82,7 @@ class ViewController: UIViewController {
 
         // パスワード表示ラベル
         passLabel.text = NSLocalizedString("生成ボタンを押してください", comment: "")
+        passLabel.font = UIFont.monospacedSystemFont(ofSize: 22, weight: .regular)
         passLabel.frame = CGRect(x: screenWidth/8, y: screenHeight-215, width: screenWidth*0.75, height: 60)
         passLabel.textAlignment = NSTextAlignment.center // 中央に配置
         passLabel.numberOfLines = 2
@@ -187,7 +189,7 @@ class ViewController: UIViewController {
         fadeOutTimer.invalidate()
         copyAlertLabel.alpha = 1.0
         // タップから0.5秒後に実行
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.fadeOutTimer = Timer.scheduledTimer(
                 timeInterval: 0.05,
                 target: self,
@@ -239,6 +241,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.section {
         case 0:
             cell.textLabel!.text = passHistory[indexPath.row]
+            cell.textLabel!.font = UIFont.monospacedSystemFont(ofSize: 17, weight: .regular)
         default:
             break
         }

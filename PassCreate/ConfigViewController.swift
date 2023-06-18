@@ -89,7 +89,7 @@ extension ConfigViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 45
+        return 65
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {

@@ -485,15 +485,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = PassCreate/Dobermann.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = CZNP3969US;
 				INFOPLIST_FILE = PassCreate/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Dobermann;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = "Alpha 4.0.3";
+				MARKETING_VERSION = "Alpha 4.1.0";
 				PRODUCT_BUNDLE_IDENTIFIER = com.NiwaYuichirou.Dobermann;
 				PRODUCT_NAME = Dobermann;
 				SUPPORTS_MACCATALYST = YES;
@@ -508,15 +509,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = PassCreate/Dobermann.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = CZNP3969US;
 				INFOPLIST_FILE = PassCreate/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Dobermann;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = "Alpha 4.0.3";
+				MARKETING_VERSION = "Alpha 4.1.0";
 				PRODUCT_BUNDLE_IDENTIFIER = com.NiwaYuichirou.Dobermann;
 				PRODUCT_NAME = Dobermann;
 				SUPPORTS_MACCATALYST = YES;
