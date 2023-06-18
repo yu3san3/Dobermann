@@ -38,7 +38,7 @@
                                 <rect key="frame" x="0.0" y="39" width="375" height="355"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="create" id="cL2-ex-LC6">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="passHistoryTableViewCell" id="cL2-ex-LC6">
                                         <rect key="frame" x="16" y="55.5" width="343" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cL2-ex-LC6" id="SQr-Kt-bsi">
@@ -94,14 +94,14 @@
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="contentViewToolBar" destination="BWq-mJ-VGF" id="c1H-Ym-JBb"/>
-                        <outlet property="contentViewToolBarButton" destination="Wm3-lg-Srg" id="gRv-80-HUm"/>
                         <outlet property="copyAlertLabel" destination="TnA-Ew-Fnn" id="h3h-Ww-Zh3"/>
-                        <outlet property="createPassButton" destination="feJ-F3-BnF" id="Qpe-4J-LE1"/>
+                        <outlet property="generateButton" destination="feJ-F3-BnF" id="Qpe-4J-LE1"/>
                         <outlet property="howToUseLabel" destination="s6X-lw-VE7" id="5Eh-Hd-b3j"/>
                         <outlet property="passHistoryTableView" destination="6Qr-bM-g0Q" id="7s9-OH-by6"/>
                         <outlet property="passLabel" destination="Ff4-ya-4DR" id="KE6-z1-tlB"/>
                         <outlet property="tapRecognizer" destination="DeG-0y-MeL" id="PeQ-az-fhg"/>
+                        <outlet property="toolBar" destination="BWq-mJ-VGF" id="c1H-Ym-JBb"/>
+                        <outlet property="toolBarButton" destination="Wm3-lg-Srg" id="gRv-80-HUm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -112,12 +112,12 @@
         <!--設定-->
         <scene sceneID="3Yd-kI-fKI">
             <objects>
-                <viewController storyboardIdentifier="configPage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Gj6-dI-63W" customClass="ConfigViewController" customModule="Dobermann" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="configView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Gj6-dI-63W" customClass="ConfigViewController" customModule="Dobermann" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="sWj-Pe-r7f">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="config" id="NUo-pi-GPt">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="configTableViewCell" id="NUo-pi-GPt">
                                 <rect key="frame" x="16" y="55.5" width="343" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="NUo-pi-GPt" id="7RY-9G-Q2v">
@@ -140,7 +140,7 @@
         <!--Pass Length View Controller-->
         <scene sceneID="MXu-Hk-nce">
             <objects>
-                <viewController storyboardIdentifier="passLengthConfig" useStoryboardIdentifierAsRestorationIdentifier="YES" id="QYt-uc-enI" customClass="PassLengthViewController" customModule="Dobermann" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="passLengthView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="QYt-uc-enI" customClass="PassLengthViewController" customModule="Dobermann" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="x4S-DK-z71">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -149,7 +149,7 @@
                                 <rect key="frame" x="0.0" y="44" width="375" height="623"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="passLength" id="y7U-as-yw0">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="passLengthTableViewCell" id="y7U-as-yw0">
                                         <rect key="frame" x="16" y="55.5" width="343" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="y7U-as-yw0" id="f02-gn-WMv">
@@ -183,7 +183,7 @@
         <!--Letter Type View Controller-->
         <scene sceneID="gaI-L7-FYz">
             <objects>
-                <viewController storyboardIdentifier="letterTypeConfig" id="g41-Sj-qMh" customClass="LetterTypeViewController" customModule="Dobermann" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="letterTypeView" id="g41-Sj-qMh" customClass="LetterTypeViewController" customModule="Dobermann" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cQB-Mg-Bt9">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -192,7 +192,7 @@
                                 <rect key="frame" x="0.0" y="44" width="375" height="623"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="letterType" id="fh8-rA-eBo">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="letterTypeTableViewCell" id="fh8-rA-eBo">
                                         <rect key="frame" x="16" y="55.5" width="343" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fh8-rA-eBo" id="VRQ-Gr-u3R">

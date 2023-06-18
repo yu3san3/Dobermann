@@ -12,7 +12,7 @@ import UIKit
 class PassLengthViewController: UIViewController {
     
     let userDefaults = UserDefaults.standard
-    let lengthStepper: UIStepper = UIStepper()
+    let passLengthCellId = "passLengthTableViewCell"
 
     let sectionTitle = [NSLocalizedString("簡易設定", comment: ""), NSLocalizedString("詳細設定", comment: "")]
     let section0Content = ["4","6","8","10","12","15","20","30","40"]
@@ -21,6 +21,7 @@ class PassLengthViewController: UIViewController {
     @IBOutlet weak var passLengthTableView: UITableView!
     @IBOutlet weak var navigationBar: UINavigationItem!
     var dismissButton: UIBarButtonItem!
+    let lengthStepper: UIStepper = UIStepper()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,7 +69,7 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
     // セルを生成
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // セルを指定する
-        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "passLength", for: indexPath)
+        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: passLengthCellId, for: indexPath)
         // データのないセルを非表示
         passLengthTableView.tableFooterView = UIView(frame: .zero)
         // セルのステータスを決定

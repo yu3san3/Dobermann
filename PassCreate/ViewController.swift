@@ -28,16 +28,17 @@ class ViewController: UIViewController {
     let feedBack = UINotificationFeedbackGenerator()
     var fadeOutTimer = Timer()
     let userDefaults = UserDefaults.standard
+    let passHistoryCellId = "passHistoryTableViewCell"
 
     var passHistory = [String](repeating: "", count: 20)
     
     @IBOutlet weak var passLabel: UILabel!
     @IBOutlet weak var copyAlertLabel: UILabel!
     @IBOutlet weak var howToUseLabel: UILabel!
-    @IBOutlet var createPassButton: UIButton!
+    @IBOutlet var generateButton: UIButton!
     @IBOutlet weak var tapRecognizer: UIButton!
-    @IBOutlet weak var contentViewToolBar: UIToolbar!
-    @IBOutlet weak var contentViewToolBarButton: UIBarButtonItem!
+    @IBOutlet weak var toolBar: UIToolbar!
+    @IBOutlet weak var toolBarButton: UIBarButtonItem!
     @IBOutlet weak var passHistoryTableView: UITableView!
     
     override func viewDidLoad() {
@@ -90,14 +91,14 @@ class ViewController: UIViewController {
         howToUseLabel.textAlignment = NSTextAlignment.center
         howToUseLabel.alpha = 0.0
         // 生成ボタン設定
-        createPassButton.setTitle(NSLocalizedString("パスワードを生成", comment: ""), for: .normal)
-        createPassButton.frame = CGRect(x: screenWidth/8, y: screenHeight-130, width: screenWidth*0.75, height: 50)
-        createPassButton.layer.cornerRadius = 10
+        generateButton.setTitle(NSLocalizedString("パスワードを生成", comment: ""), for: .normal)
+        generateButton.frame = CGRect(x: screenWidth/8, y: screenHeight-130, width: screenWidth*0.75, height: 50)
+        generateButton.layer.cornerRadius = 10
         // コピーボタン
         tapRecognizer.setTitle("", for: .normal)
         tapRecognizer.frame = CGRect(x: screenWidth/8, y: screenHeight-205, width: screenWidth*0.75, height: 60)
         // ツールバー設定(ボタンではない)
-        contentViewToolBar.frame = CGRect(x: 0, y: screenHeight-65, width: screenWidth, height: 45)
+        toolBar.frame = CGRect(x: 0, y: screenHeight-65, width: screenWidth, height: 45)
     }
     
     // 生成ボタン処理
@@ -181,7 +182,7 @@ class ViewController: UIViewController {
 
     // 設定画面へ移動
     @IBAction func gotoConfigPage(_ sender: Any) {
-        let configVC = self.storyboard?.instantiateViewController(identifier: "configPage")
+        let configVC = self.storyboard?.instantiateViewController(identifier: "configView")
         configVC?.modalTransitionStyle = .coverVertical
         present(configVC!, animated: true, completion: nil)
     }
@@ -212,7 +213,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     // セルを生成
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // セルを指定する
-        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "create", for: indexPath)
+        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: passHistoryCellId, for: indexPath)
         // データのないセルを非表示
         passHistoryTableView.tableFooterView = UIView(frame: .zero)
         // セルのステータスを決定

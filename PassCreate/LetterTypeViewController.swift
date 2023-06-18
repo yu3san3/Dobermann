@@ -11,6 +11,7 @@ import UIKit
 class LetterTypeViewController: UIViewController {
     
     let userDefaults = UserDefaults.standard
+    let letterTypeCellId = "letterTypeTableViewCell"
     
     let sectionTitle = [""]
     let section0Content = [
@@ -88,7 +89,7 @@ extension LetterTypeViewController: UITableViewDelegate, UITableViewDataSource {
     // セルを生成
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // セルを指定する
-        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "letterType", for: indexPath)
+        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: letterTypeCellId, for: indexPath)
         // データのないセルを非表示
         letterTypeTableView.tableFooterView = UIView(frame: .zero)
         // セルのステータスを決定

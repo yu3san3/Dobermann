@@ -11,6 +11,7 @@ import UIKit
 class ConfigViewController: UIViewController {
     
     let userDefaults = UserDefaults.standard
+    let configCellId = "configTableViewCell"
     
     let sectionTitle = [NSLocalizedString("一般", comment: ""), NSLocalizedString("このアプリについて", comment: "")]
     let section0Content = [NSLocalizedString("パスワードの文字数", comment: ""), NSLocalizedString("使用する文字の設定", comment: "")]
@@ -69,7 +70,7 @@ extension ConfigViewController: UITableViewDelegate, UITableViewDataSource {
     // セルを生成
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // セルを指定する
-        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "config", for: indexPath)
+        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: configCellId, for: indexPath)
         // データのないセルを非表示
         configTableView.tableFooterView = UIView(frame: .zero)
         // セルのステータスを決定
@@ -110,10 +111,10 @@ extension ConfigViewController: UITableViewDelegate, UITableViewDataSource {
         // タップしたセルごとに処理を分岐
         if indexPath.section == 0 {
             if indexPath.row == 0 {
-                let passLengthViewController = self.storyboard?.instantiateViewController(withIdentifier: "passLengthConfig") as! PassLengthViewController
+                let passLengthViewController = self.storyboard?.instantiateViewController(withIdentifier: "passLengthView") as! PassLengthViewController
                 self.navigationController?.pushViewController(passLengthViewController, animated: true)
             } else if indexPath.row == 1 {
-                let letterTypeViewController = self.storyboard?.instantiateViewController(withIdentifier: "letterTypeConfig") as! LetterTypeViewController
+                let letterTypeViewController = self.storyboard?.instantiateViewController(withIdentifier: "letterTypeView") as! LetterTypeViewController
                 self.navigationController?.pushViewController(letterTypeViewController, animated: true)
             }
         }
