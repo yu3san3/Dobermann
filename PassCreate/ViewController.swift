@@ -229,12 +229,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         // データのないセルを非表示
         passHistoryTableView.tableFooterView = UIView(frame: .zero)
         // セルに表示する値を設定する
-        if indexPath.section == 0 {
+        switch indexPath.section {
+        case 0:
             cell.textLabel!.text = passHistory[indexPath.row]
-            return cell
-        } else {
-            return cell
+        default:
+            break
         }
+        return cell
     }
     
     // 選択したセルの情報を取得

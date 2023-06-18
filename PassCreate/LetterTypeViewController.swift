@@ -31,34 +31,18 @@ class LetterTypeViewController: UIViewController {
         letterTypeTableView.delegate = self
         letterTypeTableView.dataSource = self
 
+        setupView()
+    }
+
+    private func setupView() {
+        navigationBar.title = NSLocalizedString("使用する文字の設定", comment: "")
+
         dismissButton = UIBarButtonItem(
             barButtonSystemItem: .stop,
             target: self,
             action: #selector(backToTop)
         )
         self.navigationItem.rightBarButtonItem = dismissButton
-
-        navigationBar.title = NSLocalizedString("使用する文字の設定", comment: "")
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        let letterType = userDefaults.dictionary(forKey: "letterType") as! [String: Bool]
-        if letterType["upperCase"] == false &&
-            letterType["lowerCase"] == false &&
-            letterType["number"] == false &&
-            letterType["symbol"] == false {
-            // ダイアログ
-            let dialog = UIAlertController(
-                title: NSLocalizedString("パスワードを生成できません", comment: ""),
-                message: NSLocalizedString("パスワードに使用する文字を最低ひとつ\n選んでください。", comment: ""),
-                preferredStyle: .alert
-            )
-            dialog.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(dialog, animated: true, completion: nil)
-            return
-        }
     }
 
     @objc func backToTop() {
@@ -80,9 +64,10 @@ extension LetterTypeViewController: UITableViewDelegate, UITableViewDataSource {
     
     // セル数を指定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
+        switch section {
+        case 0:
             return section0Content.count
-        } else {
+        default:
             return 0
         }
     }
@@ -91,11 +76,12 @@ extension LetterTypeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // セルを指定する
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: letterTypeCellId, for: indexPath)
+        let letterType = userDefaults.dictionary(forKey: LetterType.letterType.rawValue) as! [String: Bool]
         // データのないセルを非表示
         letterTypeTableView.tableFooterView = UIView(frame: .zero)
-        let letterType = userDefaults.dictionary(forKey: LetterType.letterType.rawValue) as! [String: Bool]
         // チェックマーク描画
         if indexPath.section == 0 {
+            cell.textLabel!.text = section0Content[indexPath.row]
             switch indexPath.row {
             case 0:
                 if letterType[LetterType.upperCase.rawValue] == true {
@@ -114,28 +100,23 @@ extension LetterTypeViewController: UITableViewDelegate, UITableViewDataSource {
                     cell.accessoryType = .checkmark
                 }
             default:
-                return cell
+                break
             }
         }
-        // セルの値を設定する
-        if indexPath.section == 0 {
-            cell.textLabel!.text = section0Content[indexPath.row]
-            return cell
-        } else {
-            return cell
-        }
+        return cell
     }
     
     // 選択したセルの情報を取得
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // セルを取得する
         let cell = tableView.cellForRow(at:indexPath)
-        // タップ後に灰色を消す
-        tableView.deselectRow(at: indexPath, animated: true)
         let letterType = userDefaults.dictionary(forKey: LetterType.letterType.rawValue) as! [String: Bool]
         var letterTypeToSave: [String: Bool] = letterType
+        // タップ後に灰色を消す
+        tableView.deselectRow(at: indexPath, animated: true)
         // タップで文字数設定
-        if indexPath.section == 0 {
+        switch indexPath.section {
+        case 0:
             switch indexPath.row {
             case 0:
                 letterTypeToSave[LetterType.upperCase.rawValue]?.toggle()
@@ -152,20 +133,16 @@ extension LetterTypeViewController: UITableViewDelegate, UITableViewDataSource {
             default:
                 return
             }
+        default:
+            break
         }
-        //すべての文字の種類が選択されなかった場合
+        //少なくとも1つの文字が選択されているかをチェック
         if letterTypeToSave[LetterType.upperCase.rawValue] == false &&
             letterTypeToSave[LetterType.lowerCase.rawValue] == false &&
             letterTypeToSave[LetterType.number.rawValue] == false &&
             letterTypeToSave[LetterType.symbol.rawValue] == false {
             // ダイアログ
-            let dialog = UIAlertController(
-                title: NSLocalizedString("パスワードを生成できません", comment: ""),
-                message: NSLocalizedString("パスワードに使用する文字を最低ひとつ\n選んでください。", comment: ""),
-                preferredStyle: .alert
-            )
-            dialog.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(dialog, animated: true, completion: nil)
+            showErrorDialog()
             letterTypeTableView.reloadData()
             return
         }
@@ -178,6 +155,16 @@ extension LetterTypeViewController: UITableViewDelegate, UITableViewDataSource {
             } else {
                 cell?.accessoryType = .none
             }
+        }
+
+        func showErrorDialog() {
+            let dialog = UIAlertController(
+                title: NSLocalizedString("パスワードを生成できません", comment: ""),
+                message: NSLocalizedString("パスワードに使用する文字を最低ひとつ\n選んでください。", comment: ""),
+                preferredStyle: .alert
+            )
+            dialog.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(dialog, animated: true, completion: nil)
         }
     }
 }

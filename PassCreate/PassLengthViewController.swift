@@ -15,7 +15,7 @@ class PassLengthViewController: UIViewController {
     let passLengthCellId = "passLengthTableViewCell"
 
     let sectionTitle = [NSLocalizedString("簡易設定", comment: ""), NSLocalizedString("詳細設定", comment: "")]
-    let section0Content = ["4","6","8","10","12","15","20","30","40"]
+    let section0Content = [4, 6, 8, 10, 12, 15, 20, 30, 40]
     let section1Content = [""]
     
     @IBOutlet weak var passLengthTableView: UITableView!
@@ -29,14 +29,18 @@ class PassLengthViewController: UIViewController {
         passLengthTableView.delegate = self
         passLengthTableView.dataSource = self
 
+        setupView()
+    }
+
+    private func setupView() {
+        navigationBar.title = NSLocalizedString("パスワードの文字数", comment: "")
+
         dismissButton = UIBarButtonItem(
             barButtonSystemItem: .stop,
             target: self,
             action: #selector(backToTop)
         )
         self.navigationItem.rightBarButtonItem = dismissButton
-
-        navigationBar.title = NSLocalizedString("パスワードの文字数", comment: "")
     }
 
     @objc func backToTop() {
@@ -57,11 +61,12 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
 
     // セル数を指定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
+        switch section {
+        case 0:
             return section0Content.count
-        } else if section == 1 {
+        case 1:
             return section1Content.count
-        } else {
+        default:
             return 0
         }
     }
@@ -70,74 +75,71 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // セルを指定する
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: passLengthCellId, for: indexPath)
+        let passLength = userDefaults.integer(forKey: PassLength.passLength.rawValue)
         // データのないセルを非表示
         passLengthTableView.tableFooterView = UIView(frame: .zero)
-        let passLength = userDefaults.integer(forKey: PassLength.passLength.rawValue)
         // セルのステータスを決定
-        if cell.accessoryView == nil {
-            if indexPath.section == 1 {
-                if indexPath.row == 0 {
-                    // セルの選択を不可にする
-                    cell.selectionStyle = .none
-                    // 最大値,最小値,初期値を設定
-                    lengthStepper.maximumValue = 40
-                    lengthStepper.minimumValue = 4
-                    lengthStepper.value = Double(passLength)
-                    // stepperを設置
-                    cell.accessoryView = lengthStepper
-                }
-            }
-        }
-        // チェックマーク描画
-        if indexPath.section == 0 {
-            if section0Content[indexPath.row] == String(passLength) {
+        switch indexPath.section {
+        case 0:
+            cell.textLabel!.text = String(section0Content[indexPath.row])
+            if section0Content[indexPath.row] == passLength {
                 cell.accessoryType = .checkmark
             } else {
                 cell.accessoryType = .none
             }
+        case 1:
+            if indexPath.row == 0 {
+                cell.textLabel!.text = String(Int(lengthStepper.value))
+                // セルの選択を不可にする
+                cell.selectionStyle = .none
+                // 最大値,最小値,初期値を設定
+                lengthStepper.maximumValue = 40
+                lengthStepper.minimumValue = 4
+                lengthStepper.value = Double(passLength)
+                // stepperタップで反応するメソッドを用意
+                lengthStepper.addTarget(self, action: #selector(stepperDetector(_:)), for: UIControl.Event.touchUpInside)
+                // stepperを設置
+                cell.accessoryView = lengthStepper
+            }
+        default:
+            break
         }
-        // stepperタップで反応するメソッドを用意
-        lengthStepper.addTarget(self, action: #selector(stepperDetector(_:)), for: UIControl.Event.touchUpInside)
-        // セルの値を設定する
-        if indexPath.section == 0 {
-            cell.textLabel!.text = section0Content[indexPath.row]
-            return cell
-        } else if indexPath.section == 1 {
-            cell.textLabel!.text = String(Int(lengthStepper.value))
-            return cell
-        } else {
-            return cell
-        }
+        return cell
     }
 
     // 選択したセルの情報を取得
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // セルを取得する
-        let cell = tableView.cellForRow(at:indexPath)
+        let cell = tableView.cellForRow(at: indexPath)
         // タップ後に灰色を消す
         tableView.deselectRow(at: indexPath, animated: true)
-        // すべてのチェックマークを消す
-        for i in 0..<section0Content.count {
-            let indexPath: NSIndexPath = NSIndexPath(row: i, section: indexPath.section)
-            if let cell: UITableViewCell = tableView.cellForRow(at: indexPath as IndexPath) {
-                cell.accessoryType = .none
-            }
-        }
-        // タップで文字数設定
-        if indexPath.section == 0 {
-            for i in 4...section0Content.count+4 {
-                if indexPath.row == i-4 {
+        deleteAllCheckmarks()
+        switch indexPath.section {
+        case 0:
+            for i in 0..<section0Content.endIndex {
+                if indexPath.row == i {
                     // チェックマークを描画
                     cell?.accessoryType = .checkmark
-                    lengthStepper.value = Double(Int(section0Content[i-4])!)
+                    lengthStepper.value = Double(section0Content[i])
                     // 選択を保存
-                    userDefaults.set(Int(section0Content[i-4])!, forKey: PassLength.passLength.rawValue)
-                    UserDefaults.standard.synchronize()
+                    userDefaults.set(section0Content[i], forKey: PassLength.passLength.rawValue)
+                    //↓なぜかフリーズする
+                    //passLengthTableView.reloadData()
+                }
+            }
+        default:
+            break
+        }
+        return
+
+        func deleteAllCheckmarks() {
+            for i in 0..<section0Content.endIndex {
+                let indexPath: IndexPath = IndexPath(row: i, section: 0)
+                if let cell = tableView.cellForRow(at: indexPath) {
+                    cell.accessoryType = .none
                 }
             }
         }
-        //passLengthTableView.reloadData()
-        //*1
     }
     
     // stepperの操作で実行
