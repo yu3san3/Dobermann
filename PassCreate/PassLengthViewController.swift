@@ -20,14 +20,27 @@ class PassLengthViewController: UIViewController {
     
     @IBOutlet weak var passLengthTableView: UITableView!
     @IBOutlet weak var navigationBar: UINavigationItem!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         passLengthTableView.delegate = self
         passLengthTableView.dataSource = self
 
+        //dismissボタンを生成
+        let dismissButton = UIBarButtonItem(
+            barButtonSystemItem: .stop,
+            target: self,
+            action: #selector(backToTop)
+        )
+        //dismissボタンを追加
+        self.navigationItem.rightBarButtonItem = dismissButton
+
         navigationBar.title = NSLocalizedString("パスワードの文字数", comment: "")
+    }
+
+    @objc func backToTop() {
+        dismiss(animated: true, completion: nil)
     }
 }
 
