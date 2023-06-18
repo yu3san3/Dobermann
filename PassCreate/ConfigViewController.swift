@@ -85,13 +85,18 @@ extension ConfigViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 60
+        return 40
+    }
+
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 45
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         var footerTitle: String = ""
+        let excludedStrings = excluded.joined(separator: " , ")
         if section == 0 {
-            footerTitle = "読みにくい記号(0,o,O,1,l,I,|,g,q,9など)を除外します。"
+            footerTitle = "読みにくい文字( \(excludedStrings) )を除外します。"
         }
         return footerTitle
     }
@@ -132,12 +137,14 @@ extension ConfigViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.detailTextLabel?.text = ""
                 excludeConfusingCharactersSwitch.tag = indexPath.row //どの行のスイッチが変更されたかを検出する
                 cell.accessoryView = excludeConfusingCharactersSwitch
+                // セルの選択を不可にする
+                cell.selectionStyle = .none
             default:
                 break
             }
         case 1:
             cell.textLabel!.text = section1Content[indexPath.row]
-            cell.detailTextLabel?.text = appVersion
+            cell.detailTextLabel?.text = "\(appVersion) (\(appBuildNum))"
             // セルの選択を不可にする
             cell.selectionStyle = .none
         default:

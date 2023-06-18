@@ -21,6 +21,9 @@
 import UIKit
 
 let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+let appBuildNum = Bundle.main.infoDictionary!["CFBundleVersion"] as! String
+
+let excluded = ["!","$","'","(",")",",",".","/","0","1",":",";","I","O","[","]","_","`","l","o","{","}","|","~"]
 
 class ViewController: UIViewController {
 
@@ -135,12 +138,10 @@ class ViewController: UIViewController {
 
     // パスワード生成関数
     private func generatePass(length: Int) -> String {
-        //0oO 1lI| gq9
         let upperCases = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
         let lowerCases = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
         let numbers = ["1","2","3","4","5","6","7","8","9","0"]
         let symbols = ["`","~","!","@","#","$","%","^","&","*","(",")","-","_","=","+","[","{","]","}","|",";",":","'",",","<",".",">","/","?"]
-        let excluded = ["!","$","'","(",")",",",".","/","0","1",":",";","I","O","[","]","_","`","l","o","{","}","|","~"]
 
         var usedData: [String] = []
         var result = ""
@@ -161,7 +162,11 @@ class ViewController: UIViewController {
         }
 
         for _ in 0..<length {
-            let randomValue = Int.random(in: 0..<usedData.endIndex)
+            var randomValue: Int = 0
+            let shouldExclude: Bool = userDefaults.bool(forKey: ExcludeCharacters.excludeCharacters.rawValue)
+            repeat {
+                randomValue = Int.random(in: 0..<usedData.endIndex)
+            } while excluded.contains(usedData[randomValue]) && shouldExclude
             if result.count == 20 {
                 result += "\n"
             }
