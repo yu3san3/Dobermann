@@ -57,9 +57,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BWq-mJ-VGF">
-                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BWq-mJ-VGF">
+                                <rect key="frame" x="0.0" y="574" width="375" height="44"/>
                                 <items>
                                     <barButtonItem title="createToolBarButton" image="gearshape" catalog="system" width="67.5" id="Wm3-lg-Srg">
                                         <connections>
@@ -88,8 +87,13 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <viewLayoutGuide key="safeArea" id="bCz-9s-7lJ"/>
                         <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="bCz-9s-7lJ" firstAttribute="bottom" secondItem="BWq-mJ-VGF" secondAttribute="bottom" id="GPT-yX-Zt9"/>
+                            <constraint firstItem="bCz-9s-7lJ" firstAttribute="trailing" secondItem="BWq-mJ-VGF" secondAttribute="trailing" symbolic="YES" id="e3k-AN-M2S"/>
+                            <constraint firstItem="BWq-mJ-VGF" firstAttribute="leading" secondItem="bCz-9s-7lJ" secondAttribute="leading" symbolic="YES" id="fEm-ei-pQq"/>
+                        </constraints>
                     </view>
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
@@ -184,7 +188,7 @@
                                 </items>
                             </navigationBar>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="RHG-sc-HeA"/>
+                        <viewLayoutGuide key="safeArea" id="CfJ-qG-fYO"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
@@ -226,7 +230,7 @@
                                 </items>
                             </navigationBar>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="fzT-98-qts"/>
+                        <viewLayoutGuide key="safeArea" id="C1v-NC-Rzv"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>

@@ -105,8 +105,6 @@ class ViewController: UIViewController {
         // コピーボタン
         tapRecognizer.setTitle("", for: .normal)
         tapRecognizer.frame = CGRect(x: screenWidth/8, y: screenHeight-205, width: screenWidth*0.75, height: 60)
-        // ツールバー設定(ボタンではない)
-        toolBar.frame = CGRect(x: 0, y: screenHeight-65, width: screenWidth, height: 45)
     }
     
     // 生成ボタン処理
