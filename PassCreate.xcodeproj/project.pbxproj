@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		EB02CE9D245D1258007BD005 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EB02CE9F245D1258007BD005 /* Localizable.strings */; };
 		EB0972BF24362A4300276B22 /* PassLengthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0972BE24362A4300276B22 /* PassLengthViewController.swift */; };
+		EB8D8AF32A438A95003F6C71 /* Password.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8D8AF22A438A95003F6C71 /* Password.swift */; };
 		EB92E7CF2A3F6F8E00597767 /* ConfigStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB92E7CE2A3F6F8E00597767 /* ConfigStrings.swift */; };
 		EB96B676243C195800582A67 /* LetterTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB96B675243C195800582A67 /* LetterTypeViewController.swift */; };
 		EBB6A9B5243212DE00922D6B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB6A9B4243212DE00922D6B /* AppDelegate.swift */; };
@@ -46,6 +47,7 @@
 		EB02CEA0245D126B007BD005 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EB0972BE24362A4300276B22 /* PassLengthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassLengthViewController.swift; sourceTree = "<group>"; };
 		EB77F3C026B6575600823BEF /* Dobermann.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Dobermann.entitlements; sourceTree = "<group>"; };
+		EB8D8AF22A438A95003F6C71 /* Password.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Password.swift; sourceTree = "<group>"; };
 		EB92E7CE2A3F6F8E00597767 /* ConfigStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigStrings.swift; sourceTree = "<group>"; };
 		EB96B675243C195800582A67 /* LetterTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterTypeViewController.swift; sourceTree = "<group>"; };
 		EBB6A9B1243212DE00922D6B /* Dobermann.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dobermann.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,6 +92,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EB8D8AF42A438BE9003F6C71 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				EBB6A9B8243212DF00922D6B /* ViewController.swift */,
+				EBB7E2062434BED500F96370 /* ConfigViewController.swift */,
+				EB0972BE24362A4300276B22 /* PassLengthViewController.swift */,
+				EB96B675243C195800582A67 /* LetterTypeViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		EBB6A9A8243212DE00922D6B = {
 			isa = PBXGroup;
 			children = (
@@ -117,10 +130,7 @@
 				EB77F3C026B6575600823BEF /* Dobermann.entitlements */,
 				EBB6A9B4243212DE00922D6B /* AppDelegate.swift */,
 				EBB6A9B6243212DF00922D6B /* SceneDelegate.swift */,
-				EBB6A9B8243212DF00922D6B /* ViewController.swift */,
-				EBB7E2062434BED500F96370 /* ConfigViewController.swift */,
-				EB0972BE24362A4300276B22 /* PassLengthViewController.swift */,
-				EB96B675243C195800582A67 /* LetterTypeViewController.swift */,
+				EB8D8AF42A438BE9003F6C71 /* ViewController */,
 				EBE56A3A2A3F35E000160E73 /* Other */,
 				EBB6A9BA243212DF00922D6B /* Main.storyboard */,
 				EBB6A9BD243212DF00922D6B /* Assets.xcassets */,
@@ -151,6 +161,7 @@
 		EBE56A3A2A3F35E000160E73 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				EB8D8AF22A438A95003F6C71 /* Password.swift */,
 				EB92E7CE2A3F6F8E00597767 /* ConfigStrings.swift */,
 			);
 			path = Other;
@@ -293,6 +304,7 @@
 				EBB6A9B9243212DF00922D6B /* ViewController.swift in Sources */,
 				EB92E7CF2A3F6F8E00597767 /* ConfigStrings.swift in Sources */,
 				EBB6A9B5243212DE00922D6B /* AppDelegate.swift in Sources */,
+				EB8D8AF32A438A95003F6C71 /* Password.swift in Sources */,
 				EB0972BF24362A4300276B22 /* PassLengthViewController.swift in Sources */,
 				EBB6A9B7243212DF00922D6B /* SceneDelegate.swift in Sources */,
 				EBB7E2072434BED500F96370 /* ConfigViewController.swift in Sources */,

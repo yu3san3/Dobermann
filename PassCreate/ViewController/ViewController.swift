@@ -29,6 +29,8 @@ let excluded = ["!","$","'","(",")",",",".","/","0","1",":",";","I","O","[","]",
 class ViewController: UIViewController {
 
     let userDefaults = UserDefaults.standard
+    let password = Password()
+
     let passHistoryCellId = "passHistoryTableViewCell"
 
     var fadeOutTimer = Timer()
@@ -50,12 +52,6 @@ class ViewController: UIViewController {
         passHistoryTableView.delegate = self
         passHistoryTableView.dataSource = self
 
-        //macOSで動作時のウィンドウサイズ指定
-        UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.forEach { windowScene in
-            windowScene.sizeRestrictions?.minimumSize = CGSize(width: 550, height: 800)
-            windowScene.sizeRestrictions?.maximumSize = CGSize(width: 550, height: 800)
-        }
-
         setupUserDefaults()
         setupView()
     }
@@ -76,6 +72,12 @@ class ViewController: UIViewController {
 
         let screenWidth: CGFloat = self.view.frame.width
         let screenHeight: CGFloat = self.view.frame.height
+
+        //macOSで動作時のウィンドウサイズ指定
+        UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.forEach { windowScene in
+            windowScene.sizeRestrictions?.minimumSize = CGSize(width: 550, height: 800)
+            windowScene.sizeRestrictions?.maximumSize = CGSize(width: 550, height: 800)
+        }
 
         // パスワード表示ラベル
         passLabel.text = NSLocalizedString("生成ボタンを押してください", comment: "")
@@ -110,20 +112,26 @@ class ViewController: UIViewController {
     // 生成ボタン処理
     @IBAction func generatePassButtonTapped(_ sender: Any) {
         howToUseLabel.alpha = 1.0
-        if passLabel.text != NSLocalizedString("生成ボタンを押してください", comment: "") {
-            // 改行を削除
-            let trimmed: String = passLabel.text!.trimmingCharacters(in: .newlines)
-            passHistory.insert(trimmed, at: 0) // 先頭に要素を追加
-            passHistory.removeLast()
-            passHistoryTableView.reloadData()
-        }
         let passLength = userDefaults.integer(forKey: PassLength.passLength.rawValue)
-        passLabel.text = generatePass(length: passLength)
+        passLabel.text = password.generate(length: passLength)
+        let initialStringOfPassLabel = NSLocalizedString("生成ボタンを押してください", comment: "")
+        if passLabel.text != initialStringOfPassLabel {
+            shiftPassHistoryTableView()
+        }
+    }
+
+    private func shiftPassHistoryTableView() {
+        // 改行を削除
+        let trimmed: String = passLabel.text!.trimmingCharacters(in: .newlines)
+        passHistory.insert(trimmed, at: 0) // 先頭に要素を追加
+        passHistory.removeLast()
+        passHistoryTableView.reloadData()
     }
 
     // passLabel(button)タップ時処理
     @IBAction func passLabelTap(_ sender: Any) {
-        if passLabel.text != NSLocalizedString("生成ボタンを押してください", comment: "") {
+        let initialStringOfPassLabel = NSLocalizedString("生成ボタンを押してください", comment: "")
+        if passLabel.text != initialStringOfPassLabel {
             copyToClipboard(copyTarget: passLabel.text!)
         }
     }
@@ -133,61 +141,6 @@ class ViewController: UIViewController {
         let configVC = self.storyboard?.instantiateViewController(identifier: "configView")
         configVC?.modalTransitionStyle = .coverVertical
         present(configVC!, animated: true, completion: nil)
-    }
-
-    // パスワード生成関数
-    private func generatePass(length: Int) -> String {
-        var result = ""
-        let usedData = getUsedData()
-
-        for _ in 0..<length {
-            //20文字を超えたら改行する
-            if result.count == 20 {
-                result += "\n"
-            }
-            let randomStr = getRandomStr(usedData: usedData)
-            result += randomStr
-        }
-
-        return result
-    }
-
-    private func getRandomStr(usedData: [String]) -> String {
-        var randomStr: String
-        //文字を除外するかどうかの設定
-        let shouldExclude: Bool = userDefaults.bool(forKey: ExcludeCharacters.excludeCharacters.rawValue)
-
-        repeat {
-            let randomInt = Int.random(in: 0..<usedData.endIndex)
-            randomStr = usedData[randomInt]
-        } while excluded.contains(randomStr) && shouldExclude
-
-        return randomStr
-    }
-
-    private func getUsedData() -> [String] {
-        var usedData: [String] = []
-        let letterType = userDefaults.dictionary(forKey: "letterType") as! [String: Bool]
-
-        let upperCases = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
-        let lowerCases = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
-        let numbers = ["1","2","3","4","5","6","7","8","9","0"]
-        let symbols = ["`","~","!","@","#","$","%","^","&","*","(",")","-","_","=","+","[","{","]","}","|",";",":","'",",","<",".",">","/","?"]
-
-        if letterType["upperCase"] == true {
-            usedData += upperCases
-        }
-        if letterType["lowerCase"] == true {
-            usedData += lowerCases
-        }
-        if letterType["number"] == true {
-            usedData += numbers
-        }
-        if letterType["symbol"] == true {
-            usedData += symbols
-        }
-
-        return usedData
     }
 
     private func copyToClipboard(copyTarget: String) {
@@ -224,11 +177,11 @@ class ViewController: UIViewController {
 
     // 0.05秒ごとに実行される
     @objc func lowerAlpha() {
-        copyAlertLabel.alpha -= 0.1
         // 透明度がなくなったらタイマーを止める
-        if (copyAlertLabel.alpha <= 0.0) {
+        if copyAlertLabel.alpha <= 0 {
             fadeOutTimer.invalidate()
         }
+        copyAlertLabel.alpha -= 0.1
     }
 }
 
@@ -277,7 +230,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         // タップ後に灰色を消す
         tableView.deselectRow(at: indexPath, animated: true)
         // クリップボードにコピー
-        if let cellContent = cell?.textLabel?.text, cellContent != "" {
+        if let cellContent = cell?.textLabel?.text, !cellContent.isEmpty {
             copyToClipboard(copyTarget: cellContent)
         }
     }
