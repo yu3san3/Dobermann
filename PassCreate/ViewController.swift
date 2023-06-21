@@ -21,7 +21,7 @@
 
 import UIKit
 
-let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
 let appBuildNum = Bundle.main.infoDictionary!["CFBundleVersion"] as! String
 
 let excluded = ["!","$","'","(",")",",",".","/","0","1",":",";","I","O","[","]","_","`","l","o","{","}","|","~"]
@@ -29,16 +29,16 @@ let excluded = ["!","$","'","(",")",",",".","/","0","1",":",";","I","O","[","]",
 class ViewController: UIViewController {
 
     let userDefaults = UserDefaults.standard
-    let feedBack = UINotificationFeedbackGenerator()
-    var fadeOutTimer = Timer()
     let passHistoryCellId = "passHistoryTableViewCell"
+
+    var fadeOutTimer = Timer()
 
     var passHistory = [String](repeating: "", count: 20)
     
     @IBOutlet weak var passLabel: UILabel!
     @IBOutlet weak var copyAlertLabel: UILabel!
     @IBOutlet weak var howToUseLabel: UILabel!
-    @IBOutlet var generateButton: UIButton!
+    @IBOutlet var generatePassButton: UIButton!
     @IBOutlet weak var tapRecognizer: UIButton!
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var toolBarButton: UIBarButtonItem!
@@ -49,10 +49,7 @@ class ViewController: UIViewController {
 
         passHistoryTableView.delegate = self
         passHistoryTableView.dataSource = self
-        
-        // 触感フィードバック準備
-        feedBack.prepare()
-        
+
         //macOSで動作時のウィンドウサイズ指定
         UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.forEach { windowScene in
             windowScene.sizeRestrictions?.minimumSize = CGSize(width: 550, height: 800)
@@ -100,9 +97,9 @@ class ViewController: UIViewController {
         howToUseLabel.textAlignment = NSTextAlignment.center
         howToUseLabel.alpha = 0.0
         // 生成ボタン設定
-        generateButton.setTitle(NSLocalizedString("パスワードを生成", comment: ""), for: .normal)
-        generateButton.frame = CGRect(x: screenWidth/8, y: screenHeight-130, width: screenWidth*0.75, height: 50)
-        generateButton.layer.cornerRadius = 10
+        generatePassButton.setTitle(NSLocalizedString("パスワードを生成", comment: ""), for: .normal)
+        generatePassButton.frame = CGRect(x: screenWidth/8, y: screenHeight-130, width: screenWidth*0.75, height: 50)
+        generatePassButton.layer.cornerRadius = 10
         // コピーボタン
         tapRecognizer.setTitle("", for: .normal)
         tapRecognizer.frame = CGRect(x: screenWidth/8, y: screenHeight-205, width: screenWidth*0.75, height: 60)
@@ -111,7 +108,7 @@ class ViewController: UIViewController {
     }
     
     // 生成ボタン処理
-    @IBAction func createButton(_ sender: Any) {
+    @IBAction func generatePassButtonTapped(_ sender: Any) {
         howToUseLabel.alpha = 1.0
         if passLabel.text != NSLocalizedString("生成ボタンを押してください", comment: "") {
             // 改行を削除
@@ -140,15 +137,42 @@ class ViewController: UIViewController {
 
     // パスワード生成関数
     private func generatePass(length: Int) -> String {
+        var result = ""
+        let usedData = getUsedData()
+
+        for _ in 0..<length {
+            //20文字を超えたら改行する
+            if result.count == 20 {
+                result += "\n"
+            }
+            let randomStr = getRandomStr(usedData: usedData)
+            result += randomStr
+        }
+
+        return result
+    }
+
+    private func getRandomStr(usedData: [String]) -> String {
+        var randomStr: String
+        //文字を除外するかどうかの設定
+        let shouldExclude: Bool = userDefaults.bool(forKey: ExcludeCharacters.excludeCharacters.rawValue)
+
+        repeat {
+            let randomInt = Int.random(in: 0..<usedData.endIndex)
+            randomStr = usedData[randomInt]
+        } while excluded.contains(randomStr) && shouldExclude
+
+        return randomStr
+    }
+
+    private func getUsedData() -> [String] {
+        var usedData: [String] = []
+        let letterType = userDefaults.dictionary(forKey: "letterType") as! [String: Bool]
+
         let upperCases = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
         let lowerCases = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
         let numbers = ["1","2","3","4","5","6","7","8","9","0"]
         let symbols = ["`","~","!","@","#","$","%","^","&","*","(",")","-","_","=","+","[","{","]","}","|",";",":","'",",","<",".",">","/","?"]
-
-        var usedData: [String] = []
-        var result = ""
-
-        let letterType = userDefaults.dictionary(forKey: "letterType") as! [String: Bool]
 
         if letterType["upperCase"] == true {
             usedData += upperCases
@@ -163,19 +187,7 @@ class ViewController: UIViewController {
             usedData += symbols
         }
 
-        for _ in 0..<length {
-            var randomValue: Int = 0
-            let shouldExclude: Bool = userDefaults.bool(forKey: ExcludeCharacters.excludeCharacters.rawValue)
-            repeat {
-                randomValue = Int.random(in: 0..<usedData.endIndex)
-            } while excluded.contains(usedData[randomValue]) && shouldExclude
-            if result.count == 20 {
-                result += "\n"
-            }
-            result += usedData[randomValue]
-        }
-
-        return result
+        return usedData
     }
 
     private func copyToClipboard(copyTarget: String) {
@@ -183,25 +195,35 @@ class ViewController: UIViewController {
         let trimmed = copyTarget.trimmingCharacters(in: .newlines)
         // クリップボードにコピー
         UIPasteboard.general.string = trimmed
-        // 触覚フィードバック
-        feedBack.notificationOccurred(.success)
-        // タイマー停止ののちフェードアウト実行
+        //触覚フィードバック
+        hapticFeedback(type: .success)
+        //copyAlertLabelをフェードアウト
+        fadeOutCopyAlertLabel()
+    }
+
+    private func hapticFeedback(type: UINotificationFeedbackGenerator.FeedbackType) {
+        let feedBack = UINotificationFeedbackGenerator()
+        feedBack.prepare()
+        feedBack.notificationOccurred(type)
+    }
+
+    private func fadeOutCopyAlertLabel() {
         fadeOutTimer.invalidate()
         copyAlertLabel.alpha = 1.0
-        // タップから0.5秒後に実行
+        // タップから1秒後にタイマーを実行
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.fadeOutTimer = Timer.scheduledTimer(
                 timeInterval: 0.05,
                 target: self,
-                selector: #selector(self.fadeOutCopyAlertLabel),
+                selector: #selector(self.lowerAlpha),
                 userInfo: nil,
                 repeats: true
             )
         }
     }
 
-    // 0.05秒ごとに実行される関数
-    @objc func fadeOutCopyAlertLabel() {
+    // 0.05秒ごとに実行される
+    @objc func lowerAlpha() {
         copyAlertLabel.alpha -= 0.1
         // 透明度がなくなったらタイマーを止める
         if (copyAlertLabel.alpha <= 0.0) {

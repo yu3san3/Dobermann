@@ -84,7 +84,7 @@
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
                                 <state key="normal" title="パスワードを生成"/>
                                 <connections>
-                                    <action selector="createButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7LU-AZ-1TY"/>
+                                    <action selector="generatePassButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7LU-AZ-1TY"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -95,7 +95,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="copyAlertLabel" destination="TnA-Ew-Fnn" id="h3h-Ww-Zh3"/>
-                        <outlet property="generateButton" destination="feJ-F3-BnF" id="Qpe-4J-LE1"/>
+                        <outlet property="generatePassButton" destination="feJ-F3-BnF" id="M5i-3r-UBH"/>
                         <outlet property="howToUseLabel" destination="s6X-lw-VE7" id="5Eh-Hd-b3j"/>
                         <outlet property="passHistoryTableView" destination="6Qr-bM-g0Q" id="7s9-OH-by6"/>
                         <outlet property="passLabel" destination="Ff4-ya-4DR" id="KE6-z1-tlB"/>
