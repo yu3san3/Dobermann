@@ -121,16 +121,16 @@ extension LetterTypeViewController: UITableViewDelegate, UITableViewDataSource {
             switch indexPath.row {
             case 0:
                 letterTypeToSave[LetterType.upperCase.rawValue]?.toggle()
-                toggleAccessoryType(letterType: letterType[LetterType.upperCase.rawValue]!)
+                drawCheckMark(letterType: letterType[LetterType.upperCase.rawValue]!)
             case 1:
                 letterTypeToSave[LetterType.lowerCase.rawValue]?.toggle()
-                toggleAccessoryType(letterType: letterType[LetterType.lowerCase.rawValue]!)
+                drawCheckMark(letterType: letterType[LetterType.lowerCase.rawValue]!)
             case 2:
                 letterTypeToSave[LetterType.number.rawValue]?.toggle()
-                toggleAccessoryType(letterType: letterType[LetterType.number.rawValue]!)
+                drawCheckMark(letterType: letterType[LetterType.number.rawValue]!)
             case 3:
                 letterTypeToSave[LetterType.symbol.rawValue]?.toggle()
-                toggleAccessoryType(letterType: letterType[LetterType.symbol.rawValue]!)
+                drawCheckMark(letterType: letterType[LetterType.symbol.rawValue]!)
             default:
                 return
             }
@@ -138,24 +138,33 @@ extension LetterTypeViewController: UITableViewDelegate, UITableViewDataSource {
             break
         }
         //少なくとも1つの文字が選択されているかをチェック
-        if letterTypeToSave[LetterType.upperCase.rawValue] == false &&
-            letterTypeToSave[LetterType.lowerCase.rawValue] == false &&
-            letterTypeToSave[LetterType.number.rawValue] == false &&
-            letterTypeToSave[LetterType.symbol.rawValue] == false {
-            // ダイアログ
+        if isNothingSelected(letterType: letterTypeToSave) {
             showErrorDialog()
             letterTypeTableView.reloadData()
             return
         }
+        //保存
         userDefaults.set(letterTypeToSave, forKey: LetterType.letterType.rawValue)
         return
 
-        func toggleAccessoryType(letterType: Bool) {
+        func drawCheckMark(letterType: Bool) {
             if letterType == false {
                 cell?.accessoryType = .checkmark
             } else {
                 cell?.accessoryType = .none
             }
+        }
+
+        func isNothingSelected(letterType: [String: Bool]) -> Bool {
+            if letterType[LetterType.upperCase.rawValue] == false &&
+                letterType[LetterType.lowerCase.rawValue] == false &&
+                letterType[LetterType.number.rawValue] == false &&
+                letterType[LetterType.symbol.rawValue] == false {
+                return true
+            } else {
+                return false
+            }
+
         }
 
         func showErrorDialog() {
