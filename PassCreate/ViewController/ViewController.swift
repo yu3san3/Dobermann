@@ -28,14 +28,14 @@ let excluded = ["!","$","'","(",")",",",".","/","0","1",":",";","I","O","[","]",
 
 class ViewController: UIViewController {
 
-    let userDefaults = UserDefaults.standard
-    let password = Password()
+    private let userDefaults = UserDefaults.standard
+    private let password = Password()
 
-    let passHistoryCellId = "passHistoryTableViewCell"
+    private let passHistoryCellId = "passHistoryTableViewCell"
 
-    var fadeOutTimer = Timer()
+    private var fadeOutTimer = Timer()
 
-    var passHistory = [String](repeating: "", count: 20)
+    private var passHistory = [String](repeating: "", count: 20)
     
     @IBOutlet weak var passLabel: UILabel!
     @IBOutlet weak var copyAlertLabel: UILabel!
@@ -57,15 +57,23 @@ class ViewController: UIViewController {
     }
 
     private func setupUserDefaults() {
+        let letterTypeKey: String = LetterType.letterType.rawValue
+        let upperCaseKey: String = LetterType.upperCase.rawValue
+        let lowerCaseKey: String = LetterType.lowerCase.rawValue
+        let numberKey: String = LetterType.number.rawValue
+        let symbolKey: String = LetterType.symbol.rawValue
+        let passLengthKey: String = PassLength.passLength.rawValue
+        let excludeCharactersKey: String = ExcludeCharacters.excludeCharacters.rawValue
+
         let defaultLetterType: [String: Bool] = [
-            LetterType.upperCase.rawValue: true,
-            LetterType.lowerCase.rawValue: true,
-            LetterType.number.rawValue: true,
-            LetterType.symbol.rawValue: false
+            upperCaseKey: true,
+            lowerCaseKey: true,
+            numberKey: true,
+            symbolKey: false
         ]
-        userDefaults.register(defaults: [PassLength.passLength.rawValue: 10])
-        userDefaults.register(defaults: [LetterType.letterType.rawValue: defaultLetterType])
-        userDefaults.register(defaults: [ExcludeCharacters.excludeCharacters.rawValue: false])
+        userDefaults.register(defaults: [passLengthKey: 10])
+        userDefaults.register(defaults: [letterTypeKey: defaultLetterType])
+        userDefaults.register(defaults: [excludeCharactersKey: false])
     }
 
     private func setupView() {

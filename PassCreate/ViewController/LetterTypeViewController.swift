@@ -10,11 +10,18 @@ import UIKit
 
 class LetterTypeViewController: UIViewController {
     
-    let userDefaults = UserDefaults.standard
-    let letterTypeCellId = "letterTypeTableViewCell"
-    
-    let sectionTitle = [""]
-    let section0Content = [
+    private let userDefaults = UserDefaults.standard
+
+    private let letterTypeCellId = "letterTypeTableViewCell"
+
+    private let letterTypeKey: String = LetterType.letterType.rawValue
+    private let upperCaseKey: String = LetterType.upperCase.rawValue
+    private let lowerCaseKey: String = LetterType.lowerCase.rawValue
+    private let numberKey: String = LetterType.number.rawValue
+    private let symbolKey: String = LetterType.symbol.rawValue
+
+    private let sectionTitle = [""]
+    private let section0Content = [
         NSLocalizedString("A-Z 英字(大文字)", comment: ""),
         NSLocalizedString("a-z 英字(小文字)", comment: ""),
         NSLocalizedString("1-9 数字", comment: ""),
@@ -111,7 +118,7 @@ extension LetterTypeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // セルを取得する
         let cell = tableView.cellForRow(at:indexPath)
-        let letterType = userDefaults.dictionary(forKey: LetterType.letterType.rawValue) as! [String: Bool]
+        let letterType = userDefaults.dictionary(forKey: letterTypeKey) as! [String: Bool]
         var letterTypeToSave: [String: Bool] = letterType
         // タップ後に灰色を消す
         tableView.deselectRow(at: indexPath, animated: true)
@@ -120,17 +127,17 @@ extension LetterTypeViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             switch indexPath.row {
             case 0:
-                letterTypeToSave[LetterType.upperCase.rawValue]?.toggle()
-                drawCheckMark(letterType: letterType[LetterType.upperCase.rawValue]!)
+                letterTypeToSave[upperCaseKey]?.toggle()
+                drawCheckMark(letterType: letterType[upperCaseKey]!)
             case 1:
-                letterTypeToSave[LetterType.lowerCase.rawValue]?.toggle()
-                drawCheckMark(letterType: letterType[LetterType.lowerCase.rawValue]!)
+                letterTypeToSave[lowerCaseKey]?.toggle()
+                drawCheckMark(letterType: letterType[lowerCaseKey]!)
             case 2:
-                letterTypeToSave[LetterType.number.rawValue]?.toggle()
-                drawCheckMark(letterType: letterType[LetterType.number.rawValue]!)
+                letterTypeToSave[numberKey]?.toggle()
+                drawCheckMark(letterType: letterType[numberKey]!)
             case 3:
-                letterTypeToSave[LetterType.symbol.rawValue]?.toggle()
-                drawCheckMark(letterType: letterType[LetterType.symbol.rawValue]!)
+                letterTypeToSave[symbolKey]?.toggle()
+                drawCheckMark(letterType: letterType[symbolKey]!)
             default:
                 return
             }
@@ -144,7 +151,7 @@ extension LetterTypeViewController: UITableViewDelegate, UITableViewDataSource {
             return
         }
         //保存
-        userDefaults.set(letterTypeToSave, forKey: LetterType.letterType.rawValue)
+        userDefaults.set(letterTypeToSave, forKey: letterTypeKey)
         return
 
         func drawCheckMark(letterType: Bool) {
@@ -156,10 +163,10 @@ extension LetterTypeViewController: UITableViewDelegate, UITableViewDataSource {
         }
 
         func isNothingSelected(letterType: [String: Bool]) -> Bool {
-            if letterType[LetterType.upperCase.rawValue] == false &&
-                letterType[LetterType.lowerCase.rawValue] == false &&
-                letterType[LetterType.number.rawValue] == false &&
-                letterType[LetterType.symbol.rawValue] == false {
+            if letterType[upperCaseKey] == false &&
+                letterType[lowerCaseKey] == false &&
+                letterType[numberKey] == false &&
+                letterType[symbolKey] == false {
                 return true
             } else {
                 return false

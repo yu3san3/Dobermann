@@ -10,19 +10,19 @@ import UIKit
 
 class ConfigViewController: UIViewController {
     
-    let userDefaults = UserDefaults.standard
-    let configCellId = "configTableViewCell"
+    private let userDefaults = UserDefaults.standard
+    private let configCellId = "configTableViewCell"
     
-    let sectionTitle = [
+    private let sectionTitle = [
         NSLocalizedString("一般", comment: ""),
         NSLocalizedString("このアプリについて", comment: "")
     ]
-    let section0Content = [
+    private let section0Content = [
         NSLocalizedString("パスワードの文字数", comment: ""),
         NSLocalizedString("使用する文字の設定", comment: ""),
         NSLocalizedString("読みにくい文字を除外する", comment: "")
     ]
-    let section1Content = [NSLocalizedString("バージョン", comment: "")]
+    private let section1Content = [NSLocalizedString("バージョン", comment: "")]
     
     @IBOutlet var configTableView: UITableView!
     @IBOutlet weak var navigationBar: UINavigationItem!

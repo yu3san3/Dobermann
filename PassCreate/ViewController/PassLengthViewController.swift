@@ -11,12 +11,14 @@ import UIKit
 //*1: これが原因でフリーズ(R3/12/8)
 class PassLengthViewController: UIViewController {
     
-    let userDefaults = UserDefaults.standard
-    let passLengthCellId = "passLengthTableViewCell"
+    private let userDefaults = UserDefaults.standard
+    private let passLengthCellId = "passLengthTableViewCell"
 
-    let sectionTitle = [NSLocalizedString("簡易設定", comment: ""), NSLocalizedString("詳細設定", comment: "")]
-    let section0Content = [4, 6, 8, 10, 12, 15, 20, 30, 40]
-    let section1Content = [""]
+    private let passLengthKey: String = PassLength.passLength.rawValue
+
+    private let sectionTitle = [NSLocalizedString("簡易設定", comment: ""), NSLocalizedString("詳細設定", comment: "")]
+    private let section0Content = [4, 6, 8, 10, 12, 15, 20, 30, 40]
+    private let section1Content = [""]
     
     @IBOutlet weak var passLengthTableView: UITableView!
     @IBOutlet weak var navigationBar: UINavigationItem!
@@ -76,7 +78,7 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // セルを指定する
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: passLengthCellId, for: indexPath)
-        let passLength = userDefaults.integer(forKey: PassLength.passLength.rawValue)
+        let passLength = userDefaults.integer(forKey: passLengthKey)
         // データのないセルを非表示
         passLengthTableView.tableFooterView = UIView(frame: .zero)
         // セルのステータスを決定
@@ -124,7 +126,7 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
             cell?.accessoryType = .checkmark
             lengthStepper.value = Double(section0Content[tappedCellNum])
             // 選択を保存
-            userDefaults.set(section0Content[tappedCellNum], forKey: PassLength.passLength.rawValue)
+            userDefaults.set(section0Content[tappedCellNum], forKey: passLengthKey)
             //↓なぜかフリーズする
             //passLengthTableView.reloadData()
         default:
@@ -144,7 +146,7 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
     
     // stepperの操作で実行
     @objc func stepperDetector(_ sender: UIStepper) {
-        userDefaults.set(Int(lengthStepper.value), forKey: PassLength.passLength.rawValue)
+        userDefaults.set(Int(lengthStepper.value), forKey: passLengthKey)
         //passLengthTableView.reloadData()
         //*1
     }
