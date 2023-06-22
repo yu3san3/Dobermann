@@ -83,29 +83,31 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.section {
         case 0:
             cell.textLabel!.text = String(section0Content[indexPath.row])
+            drawingCheckMark()
+        case 1:
+            cell.textLabel!.text = String(lengthStepper.value)
+            // セルの選択を不可にする
+            cell.selectionStyle = .none
+            // 最大値,最小値,初期値を設定
+            lengthStepper.maximumValue = 40
+            lengthStepper.minimumValue = 4
+            lengthStepper.value = Double(passLength)
+            // stepperタップで反応するメソッドを用意
+            lengthStepper.addTarget(self, action: #selector(stepperDetector(_:)), for: UIControl.Event.touchUpInside)
+            // stepperを設置
+            cell.accessoryView = lengthStepper
+        default:
+            break
+        }
+        return cell
+
+        func drawingCheckMark() {
             if section0Content[indexPath.row] == passLength {
                 cell.accessoryType = .checkmark
             } else {
                 cell.accessoryType = .none
             }
-        case 1:
-            if indexPath.row == 0 {
-                cell.textLabel!.text = String(Int(lengthStepper.value))
-                // セルの選択を不可にする
-                cell.selectionStyle = .none
-                // 最大値,最小値,初期値を設定
-                lengthStepper.maximumValue = 40
-                lengthStepper.minimumValue = 4
-                lengthStepper.value = Double(passLength)
-                // stepperタップで反応するメソッドを用意
-                lengthStepper.addTarget(self, action: #selector(stepperDetector(_:)), for: UIControl.Event.touchUpInside)
-                // stepperを設置
-                cell.accessoryView = lengthStepper
-            }
-        default:
-            break
         }
-        return cell
     }
 
     // 選択したセルの情報を取得
@@ -117,17 +119,14 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
         deleteAllCheckmarks()
         switch indexPath.section {
         case 0:
-            for i in 0..<section0Content.endIndex {
-                if indexPath.row == i {
-                    // チェックマークを描画
-                    cell?.accessoryType = .checkmark
-                    lengthStepper.value = Double(section0Content[i])
-                    // 選択を保存
-                    userDefaults.set(section0Content[i], forKey: PassLength.passLength.rawValue)
-                    //↓なぜかフリーズする
-                    //passLengthTableView.reloadData()
-                }
-            }
+            let tappedCellNum = indexPath.row
+            // チェックマークを描画
+            cell?.accessoryType = .checkmark
+            lengthStepper.value = Double(section0Content[tappedCellNum])
+            // 選択を保存
+            userDefaults.set(section0Content[tappedCellNum], forKey: PassLength.passLength.rawValue)
+            //↓なぜかフリーズする
+            //passLengthTableView.reloadData()
         default:
             break
         }
@@ -135,7 +134,7 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
 
         func deleteAllCheckmarks() {
             for i in 0..<section0Content.endIndex {
-                let indexPath: IndexPath = IndexPath(row: i, section: 0)
+                let indexPath = IndexPath(row: i, section: 0)
                 if let cell = tableView.cellForRow(at: indexPath) {
                     cell.accessoryType = .none
                 }
