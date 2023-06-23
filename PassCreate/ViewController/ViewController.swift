@@ -112,15 +112,10 @@ class ViewController: UIViewController {
     // 生成ボタン処理
     @IBAction func generatePassButtonTapped(_ sender: Any) {
         let passLength = userDefaults.integer(forKey: PassLength.passLength.rawValue)
-        let newPass = password.generate(length: passLength)
-        shiftPassHistoryTableView(newPass: newPass)
-    }
-
-    private func shiftPassHistoryTableView(newPass: String) {
-        // 改行を削除
-        let trimmed: String = newPass.trimmingCharacters(in: .newlines)
-        passHistory.insert(trimmed, at: 0) // 先頭に要素を追加
-        passHistory.removeLast()
+        for i in 0..<passHistory.endIndex {
+            let newPass = password.generate(length: passLength)
+            passHistory[i] = newPass
+        }
         passHistoryTableView.reloadData()
     }
 
