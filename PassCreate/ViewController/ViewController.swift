@@ -17,8 +17,8 @@
 //  2022/04/17 Alpha 4.0.2(10)
 //       04/20 Alpha 4.0.3(11)
 //  2023/06/19 Alpha 4.1.0(12)
+//       06/24 Alpha 5.0.0(13)
 //
-//TODO: Stepperの操作でチェックマークを描画し直すようにする
 
 import UIKit
 
@@ -216,6 +216,5 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         }
         copyAlertLabel.alpha -= 0.1
     }
-
 }
 
