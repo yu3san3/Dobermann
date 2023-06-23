@@ -18,10 +18,6 @@ class Password {
         let usedData = getUsedData()
 
         for _ in 0..<length {
-            //20文字を超えたら改行する
-            if result.count == 20 {
-                result += "\n"
-            }
             let randomStr = getRandomStr(usedData: usedData)
             result += randomStr
         }

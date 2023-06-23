@@ -35,7 +35,7 @@ class ViewController: UIViewController {
 
     private var fadeOutTimer = Timer()
 
-    private var passHistory = [String](repeating: "", count: 20)
+    private var generatedPasswords = [String](repeating: "", count: 20)
 
     @IBOutlet weak var passHistoryTableView: UITableView!
     private var copyAlertLabel = UILabel()
@@ -112,9 +112,9 @@ class ViewController: UIViewController {
     // 生成ボタン処理
     @IBAction func generatePassButtonTapped(_ sender: Any) {
         let passLength = userDefaults.integer(forKey: PassLength.passLength.rawValue)
-        for i in 0..<passHistory.endIndex {
+        for i in 0..<generatedPasswords.endIndex {
             let newPass = password.generate(length: passLength)
-            passHistory[i] = newPass
+            generatedPasswords[i] = newPass
         }
         passHistoryTableView.reloadData()
     }
@@ -127,10 +127,8 @@ class ViewController: UIViewController {
     }
 
     private func copyToClipboard(copyTarget: String) {
-        // 改行を削除
-        let trimmed = copyTarget.trimmingCharacters(in: .newlines)
         // クリップボードにコピー
-        UIPasteboard.general.string = trimmed
+        UIPasteboard.general.string = copyTarget
         //触覚フィードバック
         hapticFeedback(type: .success)
         //copyAlertLabelをフェードアウト
@@ -184,7 +182,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     // セル数を指定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return passHistory.count
+            return generatedPasswords.count
         } else {
             return 0
         }
@@ -193,12 +191,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     // セルを生成
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: passHistoryCellId, for: indexPath)
+        cell.textLabel?.numberOfLines = 0 //セルの途中でパスワードの文字列が切れないようにする
         // データのないセルを非表示
         passHistoryTableView.tableFooterView = UIView(frame: .zero)
         // セルに表示する値を設定する
         switch indexPath.section {
         case 0:
-            cell.textLabel!.text = passHistory[indexPath.row]
+            cell.textLabel!.text = generatedPasswords[indexPath.row]
             cell.textLabel!.font = UIFont.monospacedSystemFont(ofSize: 17, weight: .regular)
         default:
             break
