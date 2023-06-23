@@ -16,15 +16,15 @@
 など、自分好みに生成されるパスワードをカスタマイズできる機能も搭載しています。
 
 ## 画面イメージ
-<img src="https://user-images.githubusercontent.com/125545184/223353386-67188876-fa15-4879-8aa4-f800826b0bd9.png" width="240px">
-<img src="https://user-images.githubusercontent.com/125545184/223353510-58eddd86-1903-4003-b8ba-dfbb878be8d5.png" width="240px">
-<img src="https://user-images.githubusercontent.com/125545184/223353639-9ff9e7fa-12c7-44e1-af25-e2ab374f8ec2.png" width="240px">
-<img src="https://user-images.githubusercontent.com/125545184/223353758-556ee9e1-dbc9-4633-9b85-ee9d13211372.png" width="240px">
-<img src="https://user-images.githubusercontent.com/125545184/223353894-1f65f16e-cd39-4fa2-b8e9-436a0e5115fa.png" width="240px">
+<img src="https://github.com/yu3san3/Dobermann/assets/125545184/d83e3a15-6dcd-45fe-bba1-ac2212eecdfd" width="240px">
+<img src="https://github.com/yu3san3/Dobermann/assets/125545184/2d5e47a2-c821-4079-9f99-56da1fb56250" width="240px">
+<img src="https://github.com/yu3san3/Dobermann/assets/125545184/46a7d31a-e6dd-4c6e-aad2-0d333ab5b468" width="240px">
+<img src="https://github.com/yu3san3/Dobermann/assets/125545184/eef19a3b-a873-4ce8-9a10-55a19a685e5f" width="240px">
+<img src="https://github.com/yu3san3/Dobermann/assets/125545184/b55ec2af-6c18-47aa-abaa-672da4b54945" width="240px">
 
 ## 開発の背景
 昔は、どのサイトでも共通のパスワードを使っていました。  
-しかしやがて、「共通パスワードはセキュリティ的に非常によろしくない」という問題意識を持ち始めました。
+しかしやがて、「共通パスワードはセキュリティ的に非常に良くない」という問題意識を持ち始めました。
 
 ちょうどその頃は、大学生になり、Swiftを用いたiOSアプリ開発を始めようと思い立った頃でした。  
 そこで、「パスワード生成アプリ」という題材であれば、簡単すぎず、難しすぎることもないと思い、初めてのアプリとして製作することにしました。
@@ -37,16 +37,16 @@
 - Swift
 - UIKit
 
-## 今後の展望
-- パスワードに含めたくない文字列を指定する機能を追加したいです。
-- UI/UXの部分はまだまだ洗練することができると考えています。
+## 最近の更新
+- 紛らわしい文字をパスワードに含まない設定を追加しました。
+- シンプルに使えるよう、UI/UXを洗練しました。
 
 ## 機能一覧
 - パスワードを生成する
-- 生成したパスワードの履歴を見る
 - 生成されたパスワードをコピーする
-- パスワードの文字数を変更する
+- 生成するパスワードの文字数を変更する
 - パスワードに使用する文字の種類(大文字`A`、小文字`a`、数字`1`、記号`@`)を変更する
+- 紛らわしい文字はパスワードに含めない
 
 # こだわったポイント
 
