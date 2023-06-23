@@ -18,13 +18,14 @@
 //       04/20 Alpha 4.0.3(11)
 //  2023/06/19 Alpha 4.1.0(12)
 //
+//TODO: Stepperの操作でチェックマークを描画し直すようにする
 
 import UIKit
 
 let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
 let appBuildNum = Bundle.main.infoDictionary!["CFBundleVersion"] as! String
 
-let excluded = ["!","$","'","(",")",",",".","/","0","1",":",";","I","O","[","]","_","`","l","o","{","}","|","~"]
+let excluded = ["1","I","l","|","!","/","(","[","{",")","]","}","0","O","o",",",".",":",";","`","'","_","~"]
 
 class ViewController: UIViewController {
 

@@ -25,20 +25,6 @@ class Password {
         return result
     }
 
-    private func getRandomStr(usedData: [String]) -> String {
-        let excludeCharactersKey: String = ExcludeCharacters.excludeCharacters.rawValue
-        var randomStr: String
-        //文字を除外するかどうかの設定
-        let shouldExclude: Bool = userDefaults.bool(forKey: excludeCharactersKey)
-
-        repeat {
-            let randomInt = Int.random(in: 0..<usedData.endIndex)
-            randomStr = usedData[randomInt]
-        } while excluded.contains(randomStr) && shouldExclude
-
-        return randomStr
-    }
-
     private func getUsedData() -> [String] {
         let letterTypeKey: String = LetterType.letterType.rawValue
         let upperCaseKey: String = LetterType.upperCase.rawValue
@@ -68,5 +54,18 @@ class Password {
         }
 
         return usedData
+    }
+
+    private func getRandomStr(usedData: [String]) -> String {
+        var randomStr: String
+        let excludeCharactersKey: String = ExcludeCharacters.excludeCharacters.rawValue
+        let shouldExclude: Bool = userDefaults.bool(forKey: excludeCharactersKey) //文字を除外するかどうかの設定
+
+        repeat {
+            let randomInt = Int.random(in: 0..<usedData.endIndex)
+            randomStr = usedData[randomInt]
+        } while shouldExclude && excluded.contains(randomStr) //除外すべき文字列が含まれていないかチェック
+
+        return randomStr
     }
 }
