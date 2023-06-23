@@ -18,6 +18,8 @@
 //       04/20 Alpha 4.0.3(11)
 //  2023/06/19 Alpha 4.1.0(12)
 //
+//TODO: パスワードの文字数を設定するUIStepperを直す
+//TODO: UIをアップデート
 
 import UIKit
 
