@@ -79,34 +79,34 @@ class ViewController: UIViewController {
             windowScene.sizeRestrictions?.minimumSize = CGSize(width: 550, height: 800)
             windowScene.sizeRestrictions?.maximumSize = CGSize(width: 550, height: 800)
         }
-
         setupGeneratePassButton()
         addCopyAlertLabel()
-    }
+        return
 
-    private func setupGeneratePassButton() {
-        generatePassButton.setTitle(NSLocalizedString("パスワードを生成", comment: ""), for: .normal)
-        generatePassButton.layer.cornerRadius = 10
-    }
+        func setupGeneratePassButton() {
+            generatePassButton.setTitle(NSLocalizedString("パスワードを生成", comment: ""), for: .normal)
+            generatePassButton.layer.cornerRadius = 10
+        }
 
-    private func addCopyAlertLabel() {
-        copyAlertLabel.text = NSLocalizedString("コピーしました", comment: "")
-        copyAlertLabel.textAlignment = .center
-        copyAlertLabel.font = .boldSystemFont(ofSize: 18)
-        copyAlertLabel.backgroundColor = .tertiarySystemGroupedBackground
-        copyAlertLabel.layer.cornerRadius = 10
-        copyAlertLabel.clipsToBounds = true //labelを角丸にするために必要
-        copyAlertLabel.translatesAutoresizingMaskIntoConstraints = false //AutoLayoutを適用するために必要
-        copyAlertLabel.alpha = 0.0
-        self.view.addSubview(copyAlertLabel)
+        func addCopyAlertLabel() {
+            copyAlertLabel.text = NSLocalizedString("コピーしました", comment: "")
+            copyAlertLabel.textAlignment = .center
+            copyAlertLabel.font = .boldSystemFont(ofSize: 18)
+            copyAlertLabel.backgroundColor = .tertiarySystemGroupedBackground
+            copyAlertLabel.layer.cornerRadius = 10
+            copyAlertLabel.clipsToBounds = true //labelを角丸にするために必要
+            copyAlertLabel.translatesAutoresizingMaskIntoConstraints = false //AutoLayoutを適用するために必要
+            copyAlertLabel.alpha = 0.0
+            self.view.addSubview(copyAlertLabel)
 
-        //AutoLayout
-        NSLayoutConstraint.activate([
-            copyAlertLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor), //横方向の中心
-            copyAlertLabel.centerYAnchor.constraint(equalTo: generatePassButton.topAnchor, constant: -50), //縦方向の中心
-            copyAlertLabel.widthAnchor.constraint(equalToConstant: 150), //幅
-            copyAlertLabel.heightAnchor.constraint(equalToConstant: 50) //高さ
-        ])
+            //AutoLayout
+            NSLayoutConstraint.activate([
+                copyAlertLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor), //横方向の中心
+                copyAlertLabel.centerYAnchor.constraint(equalTo: generatePassButton.topAnchor, constant: -50), //縦方向の中心
+                copyAlertLabel.widthAnchor.constraint(equalToConstant: 150), //幅
+                copyAlertLabel.heightAnchor.constraint(equalToConstant: 50) //高さ
+            ])
+        }
     }
     
     // 生成ボタン処理
@@ -124,45 +124,6 @@ class ViewController: UIViewController {
         let configVC = self.storyboard?.instantiateViewController(identifier: "configView")
         configVC?.modalTransitionStyle = .coverVertical
         present(configVC!, animated: true, completion: nil)
-    }
-
-    private func copyToClipboard(copyTarget: String) {
-        // クリップボードにコピー
-        UIPasteboard.general.string = copyTarget
-        //触覚フィードバック
-        hapticFeedback(type: .success)
-        //copyAlertLabelをフェードアウト
-        fadeOutCopyAlertLabel()
-    }
-
-    private func hapticFeedback(type: UINotificationFeedbackGenerator.FeedbackType) {
-        let feedBack = UINotificationFeedbackGenerator()
-        feedBack.prepare()
-        feedBack.notificationOccurred(type)
-    }
-
-    private func fadeOutCopyAlertLabel() {
-        fadeOutTimer.invalidate()
-        copyAlertLabel.alpha = 1.0
-        // タップから1秒後にタイマーを実行
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.fadeOutTimer = Timer.scheduledTimer(
-                timeInterval: 0.05,
-                target: self,
-                selector: #selector(self.lowerAlpha),
-                userInfo: nil,
-                repeats: true
-            )
-        }
-    }
-
-    // 0.05秒ごとに実行される
-    @objc func lowerAlpha() {
-        // 透明度がなくなったらタイマーを止める
-        if copyAlertLabel.alpha <= 0 {
-            fadeOutTimer.invalidate()
-        }
-        copyAlertLabel.alpha -= 0.1
     }
 }
 
@@ -215,6 +176,45 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         if let cellContent = cell?.textLabel?.text, !cellContent.isEmpty {
             copyToClipboard(copyTarget: cellContent)
         }
+        return
+
+        func copyToClipboard(copyTarget: String) {
+            UIPasteboard.general.string = copyTarget // クリップボードにコピー
+            triggerHapticFeedback(type: .success)
+            fadeOutCopyAlertLabel()
+            return
+
+            func triggerHapticFeedback(type: UINotificationFeedbackGenerator.FeedbackType) {
+                let feedBack = UINotificationFeedbackGenerator()
+                feedBack.prepare()
+                feedBack.notificationOccurred(type)
+            }
+
+            func fadeOutCopyAlertLabel() {
+                fadeOutTimer.invalidate()
+                copyAlertLabel.alpha = 1.0
+                // タップから1秒後にタイマーを実行
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    self.fadeOutTimer = Timer.scheduledTimer(
+                        timeInterval: 0.05,
+                        target: self,
+                        selector: #selector(self.lowerAlpha),
+                        userInfo: nil,
+                        repeats: true
+                    )
+                }
+            }
+        }
     }
+
+    // 0.05秒ごとに実行される
+    @objc func lowerAlpha() {
+        // 透明度がなくなったらタイマーを止める
+        if copyAlertLabel.alpha <= 0 {
+            fadeOutTimer.invalidate()
+        }
+        copyAlertLabel.alpha -= 0.1
+    }
+
 }
 
