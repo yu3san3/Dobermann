@@ -20,9 +20,9 @@ class PassLengthViewController: UIViewController {
     private let section1Content = [""]
     
     @IBOutlet weak var passLengthTableView: UITableView!
+    let lengthStepper = UIStepper()
     @IBOutlet weak var navigationBar: UINavigationItem!
     var dismissButton: UIBarButtonItem!
-    let lengthStepper: UIStepper = UIStepper()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,7 +84,7 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.section {
         case 0:
             cell.textLabel!.text = String(section0Content[indexPath.row])
-            drawCheckMark()
+            cell.accessoryType = getAccessoryType(shouldDraw: section0Content[indexPath.row] == storedPassLength)
         case 1:
             cell.textLabel!.text = String(storedPassLength)
             cell.selectionStyle = .none // セルの選択を不可に
@@ -94,14 +94,6 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
             break
         }
         return cell
-
-        func drawCheckMark() {
-            if section0Content[indexPath.row] == storedPassLength {
-                cell.accessoryType = .checkmark
-            } else {
-                cell.accessoryType = .none
-            }
-        }
 
         func setupLengthStepper(initialStepperValue: Int) {
             lengthStepper.maximumValue = 40
@@ -116,6 +108,13 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
 
+    // stepperの操作で実行
+    @objc func stepperDetector(_ sender: UIStepper) {
+        let newPassLength = Int(lengthStepper.value)
+        userDefaults.set(newPassLength, forKey: passLengthKey)
+        updateView()
+    }
+
     // 選択したセルの情報を取得
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // セルを取得する
@@ -125,46 +124,43 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.section {
         case 0:
             let newPassLength = section0Content[indexPath.row]
-            drawCheckMark()
-            updateStepper(newValue: newPassLength)
+            lengthStepper.value = Double(newPassLength)
             // 選択を保存
             userDefaults.set(newPassLength, forKey: passLengthKey)
+            updateView()
         default:
             break
         }
+    }
+
+    private func updateView() {
+        let newPassLength = userDefaults.integer(forKey: passLengthKey)
+        updateCheckmark()
+        updateStepperCellText()
         return
 
-        func drawCheckMark() {
-            deleteAllCheckmarks()
-            cell?.accessoryType = .checkmark
-
-            func deleteAllCheckmarks() {
-                for i in 0..<section0Content.endIndex {
-                    let indexPath = IndexPath(row: i, section: 0)
-                    if let cell = passLengthTableView.cellForRow(at: indexPath) {
-                        cell.accessoryType = .none
-                    }
+        func updateCheckmark() {
+            for i in 0..<section0Content.endIndex {
+                let indexPath = IndexPath(row: i, section: 0)
+                if let cell = passLengthTableView.cellForRow(at: indexPath) {
+                    cell.accessoryType = getAccessoryType(shouldDraw: section0Content[indexPath.row] == newPassLength)
                 }
             }
         }
 
-        func updateStepper(newValue: Int) {
-            lengthStepper.value = Double(newValue)
-            updateStepperCellText(newText: newValue)
+        func updateStepperCellText() {
+            let indexPath = IndexPath(row: 0, section: 1)
+            if let cell = passLengthTableView.cellForRow(at: indexPath) {
+                cell.textLabel?.text = String(newPassLength)
+            }
         }
     }
 
-    // stepperの操作で実行
-    @objc func stepperDetector(_ sender: UIStepper) {
-        let newPassLength = Int(lengthStepper.value)
-        userDefaults.set(newPassLength, forKey: passLengthKey)
-        updateStepperCellText(newText: newPassLength)
-    }
-
-    private func updateStepperCellText(newText: Int) {
-        let indexPath = IndexPath(row: 0, section: 1)
-        if let cell = passLengthTableView.cellForRow(at: indexPath) {
-            cell.textLabel?.text = String(newText)
+    private func getAccessoryType(shouldDraw: Bool) -> UITableViewCell.AccessoryType {
+        if shouldDraw {
+            return .checkmark
+        } else {
+            return .none
         }
     }
 }
