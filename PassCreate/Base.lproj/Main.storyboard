@@ -17,16 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="操作方法表示" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s6X-lw-VE7">
-                                <rect key="frame" x="135" y="528" width="104" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" systemColor="systemGrayColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="6Qr-bM-g0Q">
-                                <rect key="frame" x="0.0" y="39" width="375" height="355"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="6Qr-bM-g0Q">
+                                <rect key="frame" x="0.0" y="39" width="375" height="471"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="passHistoryTableViewCell" id="cL2-ex-LC6">
                                         <rect key="frame" x="16" y="55.5" width="343" height="43.5"/>
@@ -38,27 +30,8 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="パスワード表示" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ff4-ya-4DR">
-                                <rect key="frame" x="109" y="467" width="157" height="27"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <gestureRecognizers/>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="GNN-hn-Tl8" appends="YES" id="LZ5-sp-OTj"/>
-                                </connections>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="クリップボードにコピー通知" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TnA-Ew-Fnn">
-                                <rect key="frame" x="74" y="438" width="226" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="tertiarySystemFillColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BWq-mJ-VGF">
-                                <rect key="frame" x="0.0" y="574" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="569" width="375" height="49"/>
                                 <items>
                                     <barButtonItem title="createToolBarButton" image="gearshape" catalog="system" width="67.5" id="Wm3-lg-Srg">
                                         <connections>
@@ -68,18 +41,20 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DeG-0y-MeL">
-                                <rect key="frame" x="126" y="502" width="123" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="ラベルタップ検知"/>
-                                <connections>
-                                    <action selector="passLabelTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="90r-NL-sGD"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="feJ-F3-BnF">
-                                <rect key="frame" x="86" y="557" width="202" height="49"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="クリップボードにコピー通知" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TnA-Ew-Fnn">
+                                <rect key="frame" x="74" y="39" width="226" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="tertiarySystemFillColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="feJ-F3-BnF">
+                                <rect key="frame" x="86.5" y="520" width="202" height="39"/>
+                                <color key="backgroundColor" systemColor="tertiarySystemFillColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="202" id="PVh-nv-Npc"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
                                 <state key="normal" title="パスワードを生成"/>
                                 <connections>
@@ -91,8 +66,14 @@
                         <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="bCz-9s-7lJ" firstAttribute="bottom" secondItem="BWq-mJ-VGF" secondAttribute="bottom" id="GPT-yX-Zt9"/>
+                            <constraint firstItem="feJ-F3-BnF" firstAttribute="top" secondItem="6Qr-bM-g0Q" secondAttribute="bottom" constant="10" id="ans-F8-x7A"/>
                             <constraint firstItem="bCz-9s-7lJ" firstAttribute="trailing" secondItem="BWq-mJ-VGF" secondAttribute="trailing" symbolic="YES" id="e3k-AN-M2S"/>
+                            <constraint firstItem="BWq-mJ-VGF" firstAttribute="top" secondItem="feJ-F3-BnF" secondAttribute="bottom" constant="10" id="eIm-vT-IRq"/>
                             <constraint firstItem="BWq-mJ-VGF" firstAttribute="leading" secondItem="bCz-9s-7lJ" secondAttribute="leading" symbolic="YES" id="fEm-ei-pQq"/>
+                            <constraint firstItem="6Qr-bM-g0Q" firstAttribute="top" secondItem="bCz-9s-7lJ" secondAttribute="top" constant="19" id="gCX-fQ-TAc"/>
+                            <constraint firstItem="6Qr-bM-g0Q" firstAttribute="trailing" secondItem="bCz-9s-7lJ" secondAttribute="trailing" id="hOI-mB-Mox"/>
+                            <constraint firstItem="6Qr-bM-g0Q" firstAttribute="leading" secondItem="bCz-9s-7lJ" secondAttribute="leading" id="oVn-Ry-sCk"/>
+                            <constraint firstItem="feJ-F3-BnF" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="siX-la-C9B"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -100,10 +81,7 @@
                     <connections>
                         <outlet property="copyAlertLabel" destination="TnA-Ew-Fnn" id="h3h-Ww-Zh3"/>
                         <outlet property="generatePassButton" destination="feJ-F3-BnF" id="M5i-3r-UBH"/>
-                        <outlet property="howToUseLabel" destination="s6X-lw-VE7" id="5Eh-Hd-b3j"/>
                         <outlet property="passHistoryTableView" destination="6Qr-bM-g0Q" id="7s9-OH-by6"/>
-                        <outlet property="passLabel" destination="Ff4-ya-4DR" id="KE6-z1-tlB"/>
-                        <outlet property="tapRecognizer" destination="DeG-0y-MeL" id="PeQ-az-fhg"/>
                         <outlet property="toolBar" destination="BWq-mJ-VGF" id="c1H-Ym-JBb"/>
                         <outlet property="toolBarButton" destination="Wm3-lg-Srg" id="gRv-80-HUm"/>
                     </connections>
@@ -268,9 +246,6 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGrayColor">
-            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tertiarySystemFillColor">
             <color red="0.46274509803921571" green="0.46274509803921571" blue="0.50196078431372548" alpha="0.12" colorSpace="custom" customColorSpace="sRGB"/>

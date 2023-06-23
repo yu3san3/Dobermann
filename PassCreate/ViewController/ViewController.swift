@@ -38,12 +38,9 @@ class ViewController: UIViewController {
     private var fadeOutTimer = Timer()
 
     private var passHistory = [String](repeating: "", count: 20)
-    
-    @IBOutlet weak var passLabel: UILabel!
+
     @IBOutlet weak var copyAlertLabel: UILabel!
-    @IBOutlet weak var howToUseLabel: UILabel!
     @IBOutlet var generatePassButton: UIButton!
-    @IBOutlet weak var tapRecognizer: UIButton!
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var toolBarButton: UIBarButtonItem!
     @IBOutlet weak var passHistoryTableView: UITableView!
@@ -89,12 +86,6 @@ class ViewController: UIViewController {
             windowScene.sizeRestrictions?.maximumSize = CGSize(width: 550, height: 800)
         }
 
-        // パスワード表示ラベル
-        passLabel.text = NSLocalizedString("生成ボタンを押してください", comment: "")
-        passLabel.font = UIFont.monospacedSystemFont(ofSize: 22, weight: .regular)
-        passLabel.frame = CGRect(x: screenWidth/8, y: screenHeight-215, width: screenWidth*0.75, height: 60)
-        passLabel.textAlignment = NSTextAlignment.center // 中央に配置
-        passLabel.numberOfLines = 2
         // コピー通知ラベル設定
         copyAlertLabel.text = NSLocalizedString("コピーしました", comment: "")
         copyAlertLabel.frame = CGRect(x: screenWidth/4, y: screenHeight-240, width: screenWidth/2, height: 30)
@@ -103,45 +94,24 @@ class ViewController: UIViewController {
         copyAlertLabel.textAlignment = NSTextAlignment.center
         copyAlertLabel.numberOfLines = 2
         copyAlertLabel.alpha = 0.0
-        // 使用方法表示
-        howToUseLabel.text = NSLocalizedString("↑タップでコピーされます↑", comment: "")
-        howToUseLabel.frame = CGRect(x: screenWidth/8, y: screenHeight-160, width: screenWidth*0.75, height: 30)
-        howToUseLabel.textAlignment = NSTextAlignment.center
-        howToUseLabel.alpha = 0.0
         // 生成ボタン設定
         generatePassButton.setTitle(NSLocalizedString("パスワードを生成", comment: ""), for: .normal)
-        generatePassButton.frame = CGRect(x: screenWidth/8, y: screenHeight-130, width: screenWidth*0.75, height: 50)
         generatePassButton.layer.cornerRadius = 10
-        // コピーボタン
-        tapRecognizer.setTitle("", for: .normal)
-        tapRecognizer.frame = CGRect(x: screenWidth/8, y: screenHeight-205, width: screenWidth*0.75, height: 60)
     }
     
     // 生成ボタン処理
     @IBAction func generatePassButtonTapped(_ sender: Any) {
-        howToUseLabel.alpha = 1.0
         let passLength = userDefaults.integer(forKey: PassLength.passLength.rawValue)
-        passLabel.text = password.generate(length: passLength)
-        let initialStringOfPassLabel = NSLocalizedString("生成ボタンを押してください", comment: "")
-        if passLabel.text != initialStringOfPassLabel {
-            shiftPassHistoryTableView()
-        }
+        let newPass = password.generate(length: passLength)
+        shiftPassHistoryTableView(newPass: newPass)
     }
 
-    private func shiftPassHistoryTableView() {
+    private func shiftPassHistoryTableView(newPass: String) {
         // 改行を削除
-        let trimmed: String = passLabel.text!.trimmingCharacters(in: .newlines)
+        let trimmed: String = newPass.trimmingCharacters(in: .newlines)
         passHistory.insert(trimmed, at: 0) // 先頭に要素を追加
         passHistory.removeLast()
         passHistoryTableView.reloadData()
-    }
-
-    // passLabel(button)タップ時処理
-    @IBAction func passLabelTap(_ sender: Any) {
-        let initialStringOfPassLabel = NSLocalizedString("生成ボタンを押してください", comment: "")
-        if passLabel.text != initialStringOfPassLabel {
-            copyToClipboard(copyTarget: passLabel.text!)
-        }
     }
 
     // 設定画面へ移動
