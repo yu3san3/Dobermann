@@ -8,7 +8,6 @@
 
 import UIKit
 
-//*1: これが原因でフリーズ(R3/12/8)
 class PassLengthViewController: UIViewController {
     
     private let userDefaults = UserDefaults.standard
@@ -78,37 +77,42 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // セルを指定する
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: passLengthCellId, for: indexPath)
-        let passLength = userDefaults.integer(forKey: passLengthKey)
+        let storedPassLength = userDefaults.integer(forKey: passLengthKey)
         // データのないセルを非表示
         passLengthTableView.tableFooterView = UIView(frame: .zero)
         // セルのステータスを決定
         switch indexPath.section {
         case 0:
             cell.textLabel!.text = String(section0Content[indexPath.row])
-            drawingCheckMark()
+            drawCheckMark()
         case 1:
-            cell.textLabel!.text = String(lengthStepper.value)
-            // セルの選択を不可にする
-            cell.selectionStyle = .none
-            // 最大値,最小値,初期値を設定
-            lengthStepper.maximumValue = 40
-            lengthStepper.minimumValue = 4
-            lengthStepper.value = Double(passLength)
-            // stepperタップで反応するメソッドを用意
-            lengthStepper.addTarget(self, action: #selector(stepperDetector(_:)), for: UIControl.Event.touchUpInside)
-            // stepperを設置
-            cell.accessoryView = lengthStepper
+            cell.textLabel!.text = String(storedPassLength)
+            cell.selectionStyle = .none // セルの選択を不可に
+            setupLengthStepper(initialStepperValue: storedPassLength)
+            cell.accessoryView = lengthStepper // stepperを設置
         default:
             break
         }
         return cell
 
-        func drawingCheckMark() {
-            if section0Content[indexPath.row] == passLength {
+        func drawCheckMark() {
+            if section0Content[indexPath.row] == storedPassLength {
                 cell.accessoryType = .checkmark
             } else {
                 cell.accessoryType = .none
             }
+        }
+
+        func setupLengthStepper(initialStepperValue: Int) {
+            lengthStepper.maximumValue = 40
+            lengthStepper.minimumValue = 4
+            lengthStepper.value = Double(initialStepperValue)
+            // stepperタップで反応するメソッドを指定
+            lengthStepper.addTarget(
+                self,
+                action: #selector(stepperDetector(_:)),
+                for: UIControl.Event.touchUpInside
+            )
         }
     }
 
@@ -118,36 +122,49 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.cellForRow(at: indexPath)
         // タップ後に灰色を消す
         tableView.deselectRow(at: indexPath, animated: true)
-        deleteAllCheckmarks()
         switch indexPath.section {
         case 0:
-            let tappedCellNum = indexPath.row
-            // チェックマークを描画
-            cell?.accessoryType = .checkmark
-            lengthStepper.value = Double(section0Content[tappedCellNum])
+            let newPassLength = section0Content[indexPath.row]
+            drawCheckMark()
+            updateStepper(newValue: newPassLength)
             // 選択を保存
-            userDefaults.set(section0Content[tappedCellNum], forKey: passLengthKey)
-            //↓なぜかフリーズする
-            //passLengthTableView.reloadData()
+            userDefaults.set(newPassLength, forKey: passLengthKey)
         default:
             break
         }
         return
 
-        func deleteAllCheckmarks() {
-            for i in 0..<section0Content.endIndex {
-                let indexPath = IndexPath(row: i, section: 0)
-                if let cell = tableView.cellForRow(at: indexPath) {
-                    cell.accessoryType = .none
+        func drawCheckMark() {
+            deleteAllCheckmarks()
+            cell?.accessoryType = .checkmark
+
+            func deleteAllCheckmarks() {
+                for i in 0..<section0Content.endIndex {
+                    let indexPath = IndexPath(row: i, section: 0)
+                    if let cell = passLengthTableView.cellForRow(at: indexPath) {
+                        cell.accessoryType = .none
+                    }
                 }
             }
         }
+
+        func updateStepper(newValue: Int) {
+            lengthStepper.value = Double(newValue)
+            updateStepperCellText(newText: newValue)
+        }
     }
-    
+
     // stepperの操作で実行
     @objc func stepperDetector(_ sender: UIStepper) {
-        userDefaults.set(Int(lengthStepper.value), forKey: passLengthKey)
-        //passLengthTableView.reloadData()
-        //*1
+        let newPassLength = Int(lengthStepper.value)
+        userDefaults.set(newPassLength, forKey: passLengthKey)
+        updateStepperCellText(newText: newPassLength)
+    }
+
+    private func updateStepperCellText(newText: Int) {
+        let indexPath = IndexPath(row: 0, section: 1)
+        if let cell = passLengthTableView.cellForRow(at: indexPath) {
+            cell.textLabel?.text = String(newText)
+        }
     }
 }
