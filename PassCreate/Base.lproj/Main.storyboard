@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="6Qr-bM-g0Q">
-                                <rect key="frame" x="0.0" y="39" width="375" height="471"/>
+                                <rect key="frame" x="0.0" y="39" width="375" height="460"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="passHistoryTableViewCell" id="cL2-ex-LC6">
                                         <rect key="frame" x="16" y="55.5" width="343" height="43.5"/>
@@ -41,18 +41,11 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="クリップボードにコピー通知" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TnA-Ew-Fnn">
-                                <rect key="frame" x="74" y="39" width="226" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="tertiarySystemFillColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="feJ-F3-BnF">
-                                <rect key="frame" x="86.5" y="520" width="202" height="39"/>
+                                <rect key="frame" x="86.5" y="509" width="202" height="50"/>
                                 <color key="backgroundColor" systemColor="tertiarySystemFillColor"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="OXd-ME-w9V"/>
                                     <constraint firstAttribute="width" constant="202" id="PVh-nv-Npc"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
@@ -79,7 +72,6 @@
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="copyAlertLabel" destination="TnA-Ew-Fnn" id="h3h-Ww-Zh3"/>
                         <outlet property="generatePassButton" destination="feJ-F3-BnF" id="M5i-3r-UBH"/>
                         <outlet property="passHistoryTableView" destination="6Qr-bM-g0Q" id="7s9-OH-by6"/>
                         <outlet property="toolBar" destination="BWq-mJ-VGF" id="c1H-Ym-JBb"/>

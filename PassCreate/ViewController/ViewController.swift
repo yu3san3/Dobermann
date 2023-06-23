@@ -18,8 +18,6 @@
 //       04/20 Alpha 4.0.3(11)
 //  2023/06/19 Alpha 4.1.0(12)
 //
-//TODO: パスワードの文字数を設定するUIStepperを直す
-//TODO: UIをアップデート
 
 import UIKit
 
@@ -39,11 +37,11 @@ class ViewController: UIViewController {
 
     private var passHistory = [String](repeating: "", count: 20)
 
-    @IBOutlet weak var copyAlertLabel: UILabel!
-    @IBOutlet var generatePassButton: UIButton!
+    @IBOutlet weak var passHistoryTableView: UITableView!
+    private var copyAlertLabel = UILabel()
+    @IBOutlet weak var generatePassButton: UIButton!
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var toolBarButton: UIBarButtonItem!
-    @IBOutlet weak var passHistoryTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,27 +74,39 @@ class ViewController: UIViewController {
     }
 
     private func setupView() {
-
-        let screenWidth: CGFloat = self.view.frame.width
-        let screenHeight: CGFloat = self.view.frame.height
-
         //macOSで動作時のウィンドウサイズ指定
         UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.forEach { windowScene in
             windowScene.sizeRestrictions?.minimumSize = CGSize(width: 550, height: 800)
             windowScene.sizeRestrictions?.maximumSize = CGSize(width: 550, height: 800)
         }
 
-        // コピー通知ラベル設定
-        copyAlertLabel.text = NSLocalizedString("コピーしました", comment: "")
-        copyAlertLabel.frame = CGRect(x: screenWidth/4, y: screenHeight-240, width: screenWidth/2, height: 30)
-        copyAlertLabel.layer.cornerRadius = 10
-        copyAlertLabel.clipsToBounds = true // 領域外への描画を許可しない
-        copyAlertLabel.textAlignment = NSTextAlignment.center
-        copyAlertLabel.numberOfLines = 2
-        copyAlertLabel.alpha = 0.0
-        // 生成ボタン設定
+        setupGeneratePassButton()
+        addCopyAlertLabel()
+    }
+
+    private func setupGeneratePassButton() {
         generatePassButton.setTitle(NSLocalizedString("パスワードを生成", comment: ""), for: .normal)
         generatePassButton.layer.cornerRadius = 10
+    }
+
+    private func addCopyAlertLabel() {
+        copyAlertLabel.text = NSLocalizedString("コピーしました", comment: "")
+        copyAlertLabel.textAlignment = .center
+        copyAlertLabel.font = .boldSystemFont(ofSize: 18)
+        copyAlertLabel.backgroundColor = .tertiarySystemGroupedBackground
+        copyAlertLabel.layer.cornerRadius = 10
+        copyAlertLabel.clipsToBounds = true //labelを角丸にするために必要
+        copyAlertLabel.translatesAutoresizingMaskIntoConstraints = false //AutoLayoutを適用するために必要
+        copyAlertLabel.alpha = 0.0
+        self.view.addSubview(copyAlertLabel)
+
+        //AutoLayout
+        NSLayoutConstraint.activate([
+            copyAlertLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor), //横方向の中心
+            copyAlertLabel.centerYAnchor.constraint(equalTo: generatePassButton.topAnchor, constant: -50), //縦方向の中心
+            copyAlertLabel.widthAnchor.constraint(equalToConstant: 150), //幅
+            copyAlertLabel.heightAnchor.constraint(equalToConstant: 50) //高さ
+        ])
     }
     
     // 生成ボタン処理
@@ -173,7 +183,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     // セクションタイトルを指定
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return NSLocalizedString("履歴", comment: "")
+        return "Dobermann"
     }
     
     // セル数を指定
