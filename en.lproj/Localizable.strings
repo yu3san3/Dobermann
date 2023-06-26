@@ -3,28 +3,14 @@
   PassCreate
 
   Created by 丹羽雄一朗
-  Copyright © 2020 Niwa Yuichirou. All rights reserved.
+  Copyright © 2020 Niwa Yuichiro. All rights reserved.
 */
 
 //---
 
-"完了" = "Done";
-
-//---
-
-"履歴" = "HISTORY";
-
-"生成ボタンを押してください" = "Press the Create Button";
-
-"パスワードを生成" = "Generate";
-
-"↑タップでコピーされます↑" = "↑ Tap to Copy ↑";
+"パスワードを生成" = "Generate Password";
 
 "コピーしました" = "Copied to Clipboard";
-
-"パスワードを生成できません" = "Error";
-
-"パスワードに使用する文字を最低ひとつ\n選んでください。" = "Please select at least one character \n to use for the password";
 
 //---
 
@@ -36,7 +22,9 @@
 
 "使用する文字の設定" = "Character Type";
 
-"読みにくい文字を除外する" = "Exclude confusing characters";
+"読みにくい文字を除外する" = "Exclude Confusing Characters";
+
+"読みにくい文字を除外します。" = "Exclude illegible characters.";
 
 "このアプリについて" = "ABOUT Dobermann";
 
@@ -48,6 +36,10 @@
 
 "詳細設定" = "Advanced Setting";
 
+"パスワードを生成できません" = "Unable to generate password";
+
+"パスワードに使用する文字を最低ひとつ選んでください。" = "Please select at least one character to use for the password";
+
 //---
 
 "A-Z 英字(大文字)" = "A-Z Alphabet(Uppercase)";
@@ -56,4 +48,4 @@
 
 "1-9 数字" = "1-9 Numbers";
 
-"@ 記号" = "@ signs";
+"@ 記号" = "@ symbols";

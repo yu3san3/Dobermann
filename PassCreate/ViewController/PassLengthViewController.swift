@@ -117,8 +117,6 @@ extension PassLengthViewController: UITableViewDelegate, UITableViewDataSource {
 
     // 選択したセルの情報を取得
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // セルを取得する
-        let cell = tableView.cellForRow(at: indexPath)
         // タップ後に灰色を消す
         tableView.deselectRow(at: indexPath, animated: true)
         switch indexPath.section {

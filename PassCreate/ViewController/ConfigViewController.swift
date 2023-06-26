@@ -96,7 +96,7 @@ extension ConfigViewController: UITableViewDelegate, UITableViewDataSource {
         var footerTitle: String = ""
         let excludedStrings = excluded.joined(separator: " , ")
         if section == 0 {
-            footerTitle = "読みにくい文字( \(excludedStrings) )を除外します。"
+            footerTitle = String(localized: "読みにくい文字を除外します。") + " (\(excludedStrings))"
         }
         return footerTitle
     }
