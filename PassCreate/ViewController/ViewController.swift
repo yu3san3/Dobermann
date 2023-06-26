@@ -18,6 +18,7 @@
 //       04/20 Alpha 4.0.3(11)
 //  2023/06/19 Alpha 4.1.0(12)
 //       06/24 Alpha 5.0.0(13)
+//       06/27 1.0.0(1)
 //
 
 import UIKit
@@ -78,7 +79,6 @@ class ViewController: UIViewController {
         //macOSで動作時のウィンドウサイズ指定
         UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.forEach { windowScene in
             windowScene.sizeRestrictions?.minimumSize = CGSize(width: 550, height: 800)
-            windowScene.sizeRestrictions?.maximumSize = CGSize(width: 550, height: 800)
         }
         setupGeneratePassButton()
         addCopyAlertLabel()
@@ -96,6 +96,7 @@ class ViewController: UIViewController {
             copyAlertLabel.backgroundColor = .tertiarySystemGroupedBackground
             copyAlertLabel.layer.cornerRadius = 10
             copyAlertLabel.clipsToBounds = true //labelを角丸にするために必要
+            copyAlertLabel.numberOfLines = 2
             copyAlertLabel.translatesAutoresizingMaskIntoConstraints = false //AutoLayoutを適用するために必要
             copyAlertLabel.alpha = 0.0
             self.view.addSubview(copyAlertLabel)

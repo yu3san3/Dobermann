@@ -497,7 +497,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = PassCreate/Dobermann.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = VXRZ4F779B;
 				INFOPLIST_FILE = PassCreate/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Dobermann;
@@ -507,7 +507,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = "Alpha 5.0.0";
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yu3san3.Dobermann;
 				PRODUCT_NAME = Dobermann;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -524,7 +524,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = PassCreate/Dobermann.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = VXRZ4F779B;
 				INFOPLIST_FILE = PassCreate/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Dobermann;
@@ -534,7 +534,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = "Alpha 5.0.0";
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yu3san3.Dobermann;
 				PRODUCT_NAME = Dobermann;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
