@@ -498,16 +498,17 @@
 				CODE_SIGN_ENTITLEMENTS = PassCreate/Dobermann.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 13;
-				DEVELOPMENT_TEAM = CZNP3969US;
+				DEVELOPMENT_TEAM = VXRZ4F779B;
 				INFOPLIST_FILE = PassCreate/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Dobermann;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = "Alpha 5.0.0";
-				PRODUCT_BUNDLE_IDENTIFIER = com.NiwaYuichirou.Dobermann;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yu3san3.Dobermann;
 				PRODUCT_NAME = Dobermann;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = YES;
@@ -524,16 +525,17 @@
 				CODE_SIGN_ENTITLEMENTS = PassCreate/Dobermann.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 13;
-				DEVELOPMENT_TEAM = CZNP3969US;
+				DEVELOPMENT_TEAM = VXRZ4F779B;
 				INFOPLIST_FILE = PassCreate/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Dobermann;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = "Alpha 5.0.0";
-				PRODUCT_BUNDLE_IDENTIFIER = com.NiwaYuichirou.Dobermann;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yu3san3.Dobermann;
 				PRODUCT_NAME = Dobermann;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = YES;
