@@ -1,6 +1,7 @@
 # Dobermann
 
 #### 複雑なパスワードを簡単に生成できるiOSアプリです。
+AppStore: https://apps.apple.com/jp/app/dobermann/id6450659644
 
 ## アプリ概要
 #### コンセプト
